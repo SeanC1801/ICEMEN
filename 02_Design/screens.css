@@ -1,0 +1,184 @@
+/* ============================================
+   GAYA — Screen Styles
+   Visual design for the Warning, Title, and Opening screens.
+   ============================================ */
+
+/* ============================================
+   CONTENT WARNING SCREEN
+   ============================================ */
+.warning-content {
+    max-width: 480px;
+    text-align: center;
+    padding: 40px;
+    animation: warningFadeIn 1.5s ease forwards;
+}
+
+@keyframes warningFadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.warning-text {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #2a2a2a;
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+}
+
+.warning-resources {
+    margin: 28px 0;
+    padding: 20px 0;
+}
+.warning-resources p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #3a3a3a;
+    line-height: 2;
+    letter-spacing: 0.01em;
+}
+.warning-resources strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.warning-step-away {
+    margin-top: 28px;
+    font-style: italic;
+    color: #555555;
+}
+
+.warning-prompt {
+    margin-top: 48px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #aaaaaa;
+    letter-spacing: 0.5px;
+    animation: promptPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes promptPulse {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 0.9; }
+}
+
+/* ============================================
+   TITLE SCREEN
+   ============================================ */
+#screen-title {
+    background: #faf8f5;
+}
+
+.title-content {
+    text-align: center;
+    opacity: 0;
+    animation: titleSequence 3s ease forwards;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes titleSequence {
+    0%   { opacity: 0; transform: translateY(8px); }
+    60%  { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.title-name {
+    font-family: 'Caveat', cursive;
+    font-size: 96px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 24px;
+}
+
+.title-quote {
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+    color: #999999;
+    letter-spacing: 0.3px;
+    margin-bottom: 0;
+}
+
+.title-prompt {
+    margin-top: 64px;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    font-weight: 400;
+    color: #bbbbbb;
+    letter-spacing: 0.3px;
+    opacity: 0;
+    animation: titlePromptIn 1s ease 3.5s forwards, promptPulse 2.8s ease-in-out 4.5s infinite;
+}
+
+@keyframes titlePromptIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* ============================================
+   OPENING SCENE
+   ============================================ */
+.scene-bg {
+    position: absolute;
+    inset: 0;
+}
+
+.opening-bg {
+    background: linear-gradient(180deg,
+        #f7f0e6 0%,
+        #f2ead8 30%,
+        #ede4d0 60%,
+        #e8dcc6 100%
+    );
+}
+/* Morning light wash */
+.opening-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255, 235, 180, 0.25) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* ---- Banner ---- */
+.banner {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: linear-gradient(180deg, #faf6ee 0%, #f5efe3 100%);
+    border: 1px solid rgba(180, 160, 130, 0.25);
+    padding: 24px 48px;
+    border-radius: 2px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    z-index: 2;
+    animation: bannerFadeIn 2s ease 0.5s both;
+}
+@keyframes bannerFadeIn {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.banner-name {
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    font-weight: 600;
+    color: #3a3228;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.banner-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #8a7e6e;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}

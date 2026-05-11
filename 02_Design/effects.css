@@ -1,0 +1,76 @@
+/* ============================================
+   GAYA — Visual Effects
+   Falling petals particle system and
+   the full-screen fade-to-black overlay.
+   ============================================ */
+
+/* ---- Falling Petals ---- */
+.petals-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.petal {
+    position: absolute;
+    width: 10px;
+    height: 14px;
+    background: radial-gradient(ellipse at 40% 30%,
+        #f5f0e8 0%,
+        #e8ddd0 50%,
+        #ddd2c2 100%
+    );
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    pointer-events: none;
+    animation: petalFall var(--fall-duration, 8s) linear var(--fall-delay, 0s) infinite;
+    left: var(--fall-x, 50%);
+    top: -20px;
+    transform: scale(var(--petal-scale, 1));
+}
+
+@keyframes petalFall {
+    0% {
+        top: -20px;
+        opacity: 0;
+        transform: scale(var(--petal-scale, 1)) translateX(0) rotate(0deg);
+    }
+    8% {
+        opacity: var(--petal-opacity, 0.4);
+    }
+    25% {
+        transform: scale(var(--petal-scale, 1)) translateX(18px) rotate(40deg);
+    }
+    50% {
+        transform: scale(var(--petal-scale, 1)) translateX(-12px) rotate(-20deg);
+    }
+    75% {
+        transform: scale(var(--petal-scale, 1)) translateX(8px) rotate(30deg);
+    }
+    92% {
+        opacity: var(--petal-opacity, 0.4);
+    }
+    100% {
+        top: 105vh;
+        opacity: 0;
+        transform: scale(var(--petal-scale, 1)) translateX(3px) rotate(15deg);
+    }
+}
+
+/* ---- Fade Overlay ---- */
+.fade-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000000;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+.fade-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}

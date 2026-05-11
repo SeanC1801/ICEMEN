@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAYA</title>
+    <meta name="description" content="A Filipino narrative puzzle game about the things we cannot see in ourselves.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles (split by component) -->
+    <link rel="stylesheet" href="02_Design/main.css">
+    <link rel="stylesheet" href="02_Design/screens.css">
+    <link rel="stylesheet" href="02_Design/narration.css">
+    <link rel="stylesheet" href="02_Design/hud.css">
+    <link rel="stylesheet" href="02_Design/effects.css">
+</head>
+<body>
+
+    <!-- ========== CONTENT WARNING ========== -->
+    <div id="screen-warning" class="screen active">
+        <div class="warning-content">
+            <p class="warning-text">
+                This game contains themes of depression, anxiety, and loss.
+            </p>
+            <p class="warning-text">
+                If you or someone you know needs support:
+            </p>
+            <div class="warning-resources">
+                <p>In Touch Community Services: <strong>(02) 8893-7603</strong></p>
+                <p>NCMH Crisis Hotline: <strong>1553</strong></p>
+            </div>
+            <p class="warning-text warning-step-away">
+                You may step away from this game at any time.
+            </p>
+            <p class="warning-prompt">Press anywhere to continue.</p>
+        </div>
+    </div>
+
+    <!-- ========== TITLE SCREEN ========== -->
+    <div id="screen-title" class="screen">
+        <div class="title-content">
+            <h1 class="title-name">GAYA</h1>
+            <p class="title-quote">"We don't see things as they are."</p>
+            <p class="title-prompt">Press to begin.</p>
+        </div>
+        <!-- Falling petals -->
+        <div class="petals-container" id="petals-container"></div>
+    </div>
+
+    <!-- ========== OPENING SCENE ========== -->
+    <div id="screen-opening" class="screen">
+        <div class="scene-bg opening-bg">
+            <div class="banner" id="opening-banner">
+                <div class="banner-name">Gaya Maria Reyes</div>
+                <div class="banner-date">Ika-18 Kaarawan · Abril 25, 2026</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== LEVEL 1: THE SALA ========== -->
+    <div id="screen-level1" class="screen">
+        <canvas id="game-canvas"></canvas>
+        <!-- HUD -->
+        <div id="hud" class="hud">
+            <div class="hud-bottom">
+                <div class="controls-hint">
+                    <span class="key">W A S D</span> or <span class="key">↑ ← ↓ →</span> Move
+                    <span class="sep">|</span>
+                    <span class="key">SHIFT</span> Run
+                    <span class="sep">|</span>
+                    <span class="key">E</span> Interact
+                </div>
+            </div>
+        </div>
+        <!-- Interact prompt -->
+        <div id="interact-prompt" class="interact-prompt" style="display:none;">
+            <span class="key">E</span> <span id="interact-label">Interact</span>
+        </div>
+    </div>
+
+    <!-- ========== NARRATION OVERLAY ========== -->
+    <div id="narration-overlay" class="narration-overlay hidden">
+        <div id="narration-box" class="narration-box">
+            <span id="narration-speaker" class="narration-speaker"></span>
+            <p id="narration-text" class="narration-text"></p>
+            <span class="narration-advance">▼</span>
+        </div>
+    </div>
+
+    <!-- ========== FADE OVERLAY ========== -->
+    <div id="fade-overlay" class="fade-overlay"></div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <!-- Data Layer -->
+    <script src="js/data/config.js"></script>
+    <script src="js/data/dialogue.js"></script>
+    <script src="js/data/maps.js"></script>
+
+    <!-- Core Engine -->
+    <script src="js/core/player.js"></script>
+    <script src="js/core/camera.js"></script>
+    <script src="js/core/renderer.js"></script>
+    <script src="js/core/engine.js"></script>
+
+    <!-- Core Game Systems -->
+    <script src="js/core/narration.js"></script>
+    <script src="js/core/scene.js"></script>
+    <script src="js/core/petals.js"></script>
+
+    <!-- Level Scripts -->
+    <script src="js/levels/opening.js"></script>
+    <script src="js/levels/level1-sala.js"></script>
+    <script src="js/levels/level2-bedroom.js"></script>
+    <script src="js/levels/interlude.js"></script>
+    <script src="js/levels/level3-candles.js"></script>
+    <script src="js/levels/ending.js"></script>
+
+    <!-- Input (last — binds to all modules) -->
+    <script src="js/core/input.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+/* ============================================
+   GAYA — Narration System Styles
+   The bottom-screen dialogue box, speaker label,
+   typewriter text, and advance indicator.
+   ============================================ */
+
+.narration-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 40px 32px;
+    z-index: 100;
+    transition: opacity 0.5s ease;
+}
+.narration-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.narration-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.narration-box {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 22px 30px 18px;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 70px;
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.narration-speaker {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8a7e6e;
+    margin-bottom: 8px;
+    min-height: 14px;
+}
+
+.narration-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #2a2a2a;
+    min-height: 24px;
+}
+
+.narration-advance {
+    position: absolute;
+    bottom: 10px;
+    right: 18px;
+    color: #cccccc;
+    font-size: 10px;
+    animation: advBounce 1.4s ease-in-out infinite;
+}
+@keyframes advBounce {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50%      { opacity: 0.7; transform: translateY(3px); }
+}
