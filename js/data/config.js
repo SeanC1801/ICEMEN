@@ -12,33 +12,37 @@ GAYA.Config = {
     TYPE_SPEED: 28,         // ms per character in typewriter
     ANIM_FPS: 8,            // sprite animation frames per second
     MOVE_SPEED: 150,        // walk speed in px/s
-    PLAYER_RENDER_SCALE: 0.12, // render scale (frame is 504×634 src px → ~60×76 on screen)
+    PLAYER_RENDER_SCALE: 0.12,
 
     assetPaths: {
-        /* Single unified sprite sheet: 6 cols × 6 rows, 504×634 per frame
-           Row 0-1: Front/Down, Row 2-3: Right side, Row 4-5: Back/Up
-           Left = mirrored Right */
+        /* Single unified sprite sheet: 6 cols × 6 rows, 504×634 per frame */
         playerSprite: "01_Assets/Character_Sprites/Gaya/sprite-max-px-36.png",
         tornPage:     "01_Assets/Objects/Torn Page 001.png",
+        basketFlowers:"01_Assets/Objects/Basket with Flowers.png",
     },
 
-    /* Map background images */
+    /* Map background images — all states for progressive reveals */
     mapBackgrounds: {
-        sala:    "04_Locations/Levels/Bedroom 005.png",
-        bedroom: "04_Locations/Levels/Bedroom 005.png",
+        bedroom:        "04_Locations/Levels/Level 1/Bedroom 005.png",
+        livingroom:     "04_Locations/Levels/Level 1/Livingroom 005.png",
+        livingroom_006: "04_Locations/Levels/Level 1/Livingroom 006.png",
+        livingroom_007: "04_Locations/Levels/Level 1/Livingroom 007.png",
+        livingroom_008: "04_Locations/Levels/Level 1/Livingroom 008.png",
+        livingroom_009: "04_Locations/Levels/Level 1/Livingroom 009.png",
+        livingroom_010: "04_Locations/Levels/Level 1/Livingroom 010.png",
+        livingroom_011: "04_Locations/Levels/Level 1/Livingroom 011.png",
+        livingroom_012: "04_Locations/Levels/Level 1/Livingroom 012.png",
+        livingroom_013: "04_Locations/Levels/Level 1/Livingroom 013.png",
+        livingroom_014: "04_Locations/Levels/Level 1/Livingroom 014.png",
     },
 
-    /* Sprite grid: 6 cols × 6 rows from 3024×3804 sheet
-       Row 0-1 = Down/Front (12 frames total)
-       Row 2-3 = Right side (12 frames total)
-       Row 4-5 = Back/Up (12 frames total)
-       Left = mirrored Right */
+    /* Sprite grid: 6 cols × 6 rows from 3024×3804 sheet */
     spriteGrid: {
         cols: 6,
         rows: 6,
-        fw: 504,   // 3024 / 6
-        fh: 634,   // 3804 / 6
-        framesPerDir: 12, // 2 rows × 6 cols per direction
+        fw: 504,
+        fh: 634,
+        framesPerDir: 12,
     }
 };
 

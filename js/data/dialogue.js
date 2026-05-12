@@ -38,6 +38,77 @@ GAYA.Dialogue = {
         ]
     },
 
+    livingroom: {
+        opening: [
+            { speaker: 'GAYA', text: 'That torn note from before... three black vases with symbols on them.' },
+            { speaker: 'GAYA', text: 'One dancing... one hugging... and one looking up to the sky.' },
+            { speaker: 'GAYA', text: 'Mom used to arrange flowers there all the time...' },
+            { speaker: 'GAYA', text: 'I should find the basket with her favorite flowers first.' }
+        ],
+        basket_found: [
+            { speaker: 'GAYA', text: 'Sampaguita... roses... lilies...' },
+            { speaker: 'GAYA', text: 'Mom always paired these with those strange vases.' },
+            { speaker: 'GAYA', text: 'Maybe the symbols will tell me where they belong.' },
+            { speaker: 'GAYA', text: 'I need to find the three black vases.' }
+        ],
+        vase_1: [{ speaker: 'GAYA', text: '1 vase found out of 3.' }],
+        vase_2: [{ speaker: 'GAYA', text: '2 vases found out of 3.' }],
+        vase_3: [{ speaker: 'GAYA', text: 'All 3 vases found.' }],
+        vases_on_table: [
+            { speaker: '...', text: 'The three black vases are now neatly arranged on the wooden table.' },
+            { speaker: '...', text: 'The room becomes quieter. Sunlight lands directly on the ceramic surfaces.' }
+        ],
+        /* Wrong placements */
+        wrong_sampaguita: [
+            { speaker: 'GAYA', text: "No... that doesn't feel right." },
+            { speaker: 'GAYA', text: 'Mom gave me sampaguita when we danced together during my sixteenth birthday...' },
+            { speaker: 'GAYA', text: 'She said even small things could fill a whole room with happiness.' }
+        ],
+        wrong_roses: [
+            { speaker: 'GAYA', text: "Roses... weren't about romance to her." },
+            { speaker: 'GAYA', text: 'Mom used to hold me so tightly whenever I cried...' },
+            { speaker: 'GAYA', text: 'Like she was trying to protect every broken part of me.' }
+        ],
+        wrong_lilies: [
+            { speaker: 'GAYA', text: 'Lilies always reminded her to look up.' },
+            { speaker: 'GAYA', text: "Whenever life felt heavy, she'd tell me the sky was proof that things could still open beautifully." }
+        ],
+        /* Correct placements */
+        correct_sampaguita: [
+            { speaker: 'GAYA', text: 'Mom and I danced barefoot in the living room that night...' },
+            { speaker: 'GAYA', text: 'She tucked sampaguita behind my ear and laughed when I stepped on her foot.' },
+            { speaker: 'GAYA', text: "I haven't heard that laugh in so long..." }
+        ],
+        correct_roses: [
+            { speaker: 'GAYA', text: 'Whenever I was scared, Mom would pull me into her arms before I even asked.' },
+            { speaker: 'GAYA', text: 'She smelled like roses and laundry soap...' },
+            { speaker: 'GAYA', text: 'Back then, I thought her hugs could stop the whole world from hurting me.' }
+        ],
+        correct_lilies: [
+            { speaker: 'GAYA', text: 'Mom used to point at the sky after the rain...' },
+            { speaker: 'GAYA', text: "She said joy wasn't something you waited for." },
+            { speaker: 'GAYA', text: 'You searched for it... even in the smallest light.' },
+            { speaker: 'GAYA', text: 'Ligaya...' },
+            { speaker: 'GAYA', text: "Maybe that's what she wanted me to remember." }
+        ],
+        /* Completion */
+        completion: [
+            { speaker: '...', text: 'The camera slowly zooms out from the glowing vases.' },
+            { speaker: '...', text: 'The room feels warmer now — alive again.' },
+            { speaker: '...', text: 'A loose piece of torn paper slightly sticks out from the flower basket.' }
+        ],
+        final_dialogue: [
+            { speaker: 'GAYA', text: "There's something inside the basket..." },
+            { speaker: 'GAYA', text: 'A note?' }
+        ],
+        /* Diary Entry 1 */
+        diary_entry: [
+            { speaker: 'Diary Entry — March 3', text: 'I asked Mommy what her favorite flower was...' },
+            { speaker: 'Diary Entry — March 3', text: "She said sampaguita because it's small, but you can smell it from across the room." },
+            { speaker: 'GAYA', text: 'I want to mean more than I look.' }
+        ]
+    },
+
     level2: {
         intro: [
             { speaker: 'Gaya', text: "The dress is here. I tried to just look at it for a minute without touching it. I couldn't. The embroidery at the neckline is exactly what Mommy described." },

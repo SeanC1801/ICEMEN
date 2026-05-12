@@ -17,7 +17,7 @@ GAYA.Levels.Level1 = (function() {
 
     function start() {
         state.hasReadPage = false;
-        Gameplay.loadAndStart(handleInteract, 'sala');
+        GAYA.Gameplay.loadAndStart('bedroom', handleInteract);
     }
 
     function handleInteract(hotspot) {
@@ -33,11 +33,13 @@ GAYA.Levels.Level1 = (function() {
                     GAYA.Items.show(GAYA.Config.assetPaths.tornPage, function() {
                         GAYA.Narration.show(D().torn_page, function() {
                             /* After reading, enable the door exit */
-                            var hs = Gameplay.getHotspots();
-                            var door = hs.find(function(h) { return h.id === 'door_exit'; });
+                            var hs = GAYA.Gameplay.hotspots;
+                            var door = null;
+                            for (var i = 0; i < hs.length; i++) {
+                                if (hs[i].id === 'door_exit') { door = hs[i]; break; }
+                            }
                             if (door) {
                                 door.active = true;
-                                /* Prompt the player */
                                 setTimeout(function() {
                                     GAYA.Narration.show([
                                         { speaker: 'Gaya', text: 'I should head to the living room.' }
@@ -52,22 +54,17 @@ GAYA.Levels.Level1 = (function() {
             case 'door_exit':
                 if (state.hasReadPage) {
                     hotspot.completed = true;
-                    /* Transition to the living room (Level 2 or placeholder) */
-                    Gameplay.stop();
+                    /* Transition to the Living Room */
+                    GAYA.Gameplay.stop();
                     var fade = GAYA.Scene.getFadeOverlay();
                     setTimeout(function() {
                         fade.classList.add('active');
                         setTimeout(function() {
-                            GAYA.State.currentScreen = 'level2';
+                            GAYA.State.currentScreen = 'livingroom';
                             fade.classList.remove('active');
-                            /* Start Level 2 when the living room map is ready.
-                               For now, show a placeholder narration. */
-                            if (GAYA.Levels.Level2) {
-                                GAYA.Levels.Level2.start();
-                            } else {
-                                GAYA.Narration.show([
-                                    { speaker: 'Gaya', text: 'The living room...' }
-                                ]);
+                            /* Start the Living Room level */
+                            if (GAYA.Levels.Livingroom) {
+                                GAYA.Levels.Livingroom.start();
                             }
                         }, 1200);
                     }, 800);

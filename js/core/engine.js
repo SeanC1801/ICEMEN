@@ -6,7 +6,7 @@
 
 window.GAYA = window.GAYA || {};
 
-var Gameplay = (function() {
+GAYA.Gameplay = (function() {
     'use strict';
 
     var TILE_SIZE = GAYA.Config.TILE_SIZE;
@@ -20,7 +20,7 @@ var Gameplay = (function() {
 
     /* ---- Assets ---- */
     var assets = {};         // playerSprite, etc.
-    var objectSprites = {};  // tornPage, etc.
+    var objectSprites = {};  // tornPage, basketFlowers, etc.
     var mapBgImages = {};    // pre-loaded map background images
     var currentMapBg = null; // active background for the current map
     var spritesReady = false;
@@ -114,8 +114,30 @@ var Gameplay = (function() {
     /* ============================================
        PUBLIC API
        ============================================ */
-    function loadAndStart(onInteract, mapId) {
-        onInteractCb = onInteract;
+
+    /**
+     * loadAndStart(mapId, onInteractOrCallback)
+     * 
+     * Can be called two ways:
+     *   loadAndStart(mapId, interactHandler)  — for level scripts
+     *   loadAndStart(mapId, readyCallback)    — for Livingroom-style setup
+     */
+    function loadAndStart(mapId, callbackOrInteract) {
+        /* Determine usage: if the map has its own level handler, the callback
+           is a ready-callback; otherwise it's an interaction handler */
+        if (typeof callbackOrInteract === 'function') {
+            /* Check if this is a level with its own interact handler */
+            if (mapId === 'livingroom') {
+                onInteractCb = function(hotspot) {
+                    GAYA.Levels.Livingroom.interact(hotspot.id);
+                };
+            } else if (mapId === 'bedroom' || mapId === 'sala') {
+                onInteractCb = callbackOrInteract;
+            } else {
+                onInteractCb = callbackOrInteract;
+            }
+        }
+
         canvas = document.getElementById('game-canvas');
         ctx = canvas.getContext('2d');
 
@@ -140,10 +162,14 @@ var Gameplay = (function() {
             });
         }
 
-        loadMap(mapId || 'sala');
+        loadMap(mapId || 'bedroom');
 
         if (spritesReady) {
+            currentMapBg = mapBgImages[currentMapId] || null;
             running = true; lastTime = performance.now(); requestAnimationFrame(loop);
+            if (typeof callbackOrInteract === 'function' && mapId === 'livingroom') {
+                callbackOrInteract();
+            }
             return;
         }
 
@@ -159,6 +185,9 @@ var Gameplay = (function() {
                 spritesReady = true; running = true;
                 currentMapBg = mapBgImages[currentMapId] || null;
                 lastTime = performance.now(); requestAnimationFrame(loop);
+                if (typeof callbackOrInteract === 'function' && mapId === 'livingroom') {
+                    callbackOrInteract();
+                }
             }
         }
         function onAssetError(key) {
@@ -189,6 +218,31 @@ var Gameplay = (function() {
         });
     }
 
+    /**
+     * Swap the background image dynamically (for vase collection progression)
+     */
+    function swapBackground(newSrc) {
+        /* Find the pre-loaded image by path, or load a new one */
+        for (var key in mapBgImages) {
+            if (mapBgImages[key].src && mapBgImages[key].src.endsWith(newSrc.replace(/.*\//, ''))) {
+                currentMapBg = mapBgImages[key];
+                return;
+            }
+        }
+        /* Search by exact config key */
+        var bgPaths = GAYA.Config.mapBackgrounds;
+        for (var k in bgPaths) {
+            if (bgPaths[k] === newSrc && mapBgImages[k]) {
+                currentMapBg = mapBgImages[k];
+                return;
+            }
+        }
+        /* Fallback: load dynamically */
+        var img = new Image();
+        img.src = newSrc;
+        img.onload = function() { currentMapBg = img; };
+    }
+
     function switchMap(mapId, onInteract) {
         running = false;
         onInteractCb = onInteract;
@@ -199,8 +253,17 @@ var Gameplay = (function() {
     }
 
     function stop() { running = false; }
-    function getHotspots() { return hotspots; }
-    function getObjectSprites() { return objectSprites; }
 
-    return { loadAndStart: loadAndStart, switchMap: switchMap, stop: stop, getHotspots: getHotspots, getObjectSprites: getObjectSprites };
+    return {
+        loadAndStart: loadAndStart,
+        switchMap: switchMap,
+        swapBackground: swapBackground,
+        stop: stop,
+        get hotspots() { return hotspots; },
+        getHotspots: function() { return hotspots; },
+        getObjectSprites: function() { return objectSprites; }
+    };
 })();
+
+/* Legacy alias */
+var Gameplay = GAYA.Gameplay;
