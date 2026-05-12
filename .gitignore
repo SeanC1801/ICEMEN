@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# R
+.Rhistory
+.RData
+
+# Aseprite
+*.approj
+
+# Old project config
+.ap/
+
+# Thumbnails
+Thumbs.db
