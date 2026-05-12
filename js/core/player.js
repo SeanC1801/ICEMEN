@@ -14,16 +14,16 @@ GAYA.Player = (function() {
 
     var player = {
         x: 0, y: 0,
-        width: 20 * SCALE,
-        height: 20 * SCALE,
+        width: 22 * SCALE,
+        height: 22 * SCALE,
         speed: 110 * SCALE,
         runMult: 1.6,
         direction: 3,
         frame: 0,
         frameTimer: 0,
         state: 'idle',
-        frameWidth: 20,
-        frameHeight: 20,
+        frameWidth: 16,
+        frameHeight: 16,
 
         init: function(sx, sy) {
             this.x = sx * TILE_SIZE;
@@ -81,12 +81,29 @@ GAYA.Player = (function() {
         },
 
         draw: function(ctx, assets) {
-            var img, maxF = 4;
+            var img, grid;
+            var grids = GAYA.Config.spriteGrid;
             switch (this.state) {
-                case 'walk': img = assets.playerWalk; maxF = 4; break;
-                case 'run':  img = assets.playerRun;  maxF = 6; break;
-                default:     img = assets.playerIdle;  maxF = 4;
+                case 'walk': img = assets.playerWalk; grid = grids.playerWalk; break;
+                case 'run':  img = assets.playerRun;  grid = grids.playerRun;  break;
+                default:     img = assets.playerIdle;  grid = grids.playerIdle;
             }
+
+            var fw = grid.fw;   // exact frame width in pixels
+            var fh = grid.fh;   // exact frame height in pixels
+            var maxF = grid.cols; // frames per direction = number of columns
+
+            // Map direction to sprite sheet row
+            // Row 0: Down (front), Row 1: Side (right), Row 3: Up (back)
+            // Left = Row 1 mirrored horizontally
+            var dirRow, flipH = false;
+            switch (this.direction) {
+                case 0: dirRow = 0; break;                // Down
+                case 1: dirRow = 1; flipH = true; break;  // Left = mirrored Right
+                case 2: dirRow = 1; break;                // Right
+                case 3: dirRow = 3; break;                // Up
+            }
+
             // Shadow
             ctx.fillStyle = 'rgba(0,0,0,0.15)';
             ctx.beginPath();
@@ -97,14 +114,23 @@ GAYA.Player = (function() {
                 0, 0, Math.PI * 2
             );
             ctx.fill();
-            // Sprite
+
+            // Sprite — pure integer math, exact pixel boundaries
             var f = this.frame % maxF;
-            ctx.drawImage(img,
-                f * this.frameWidth, this.direction * this.frameHeight,
-                this.frameWidth, this.frameHeight,
-                Math.floor(this.x), Math.floor(this.y),
-                this.width, this.height
-            );
+            var sx = f * fw;
+            var sy = dirRow * fh;
+            var dx = Math.floor(this.x);
+            var dy = Math.floor(this.y);
+
+            if (flipH) {
+                ctx.save();
+                ctx.translate(dx + this.width, dy);
+                ctx.scale(-1, 1);
+                ctx.drawImage(img, sx, sy, fw, fh, 0, 0, this.width, this.height);
+                ctx.restore();
+            } else {
+                ctx.drawImage(img, sx, sy, fw, fh, dx, dy, this.width, this.height);
+            }
         }
     };
 

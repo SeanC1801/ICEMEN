@@ -11,9 +11,17 @@ GAYA.Config = {
     TILE_SIZE: 16 * 2.5,   // 40px per tile
     TYPE_SPEED: 28,         // ms per character in typewriter
     assetPaths: {
-        playerWalk: "01_Assets/draft_sprite (eris esra)/16x16/16x16 Walk-Sheet.png",
-        playerIdle: "01_Assets/draft_sprite (eris esra)/16x16/16x16 Idle-Sheet.png",
-        playerRun:  "01_Assets/draft_sprite (eris esra)/16x16/16x16 Run-Sheet.png",
+        playerWalk: "01_Assets/Gaya 16x16 Walk-Sheet.png",
+        playerIdle: "01_Assets/Gaya 16x16 Idle-Sheet.png",
+        playerRun:  "01_Assets/Gaya 16x16 Run-Sheet.png",
+    },
+    /* Grid layout: the ONLY exact integer divisions of the sprite sheet pixel dimensions.
+       Idle/Walk 447×558 → 3 cols × 6 rows = 149×93 per frame (exact)
+       Run 500×500 → 5 cols × 5 rows = 100×100 per frame (exact) */
+    spriteGrid: {
+        playerWalk: { cols: 3, rows: 6, fw: 149, fh: 93 },
+        playerIdle: { cols: 3, rows: 6, fw: 149, fh: 93 },
+        playerRun:  { cols: 5, rows: 5, fw: 100, fh: 100 },
     }
 };
 
