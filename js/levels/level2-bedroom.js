@@ -24,6 +24,18 @@ GAYA.Levels.Level2 = (function() {
         var hs = Gameplay.getHotspots();
 
         switch (hotspot.id) {
+            /* ---- Pink Diary → Torn Page popup ---- */
+            case 'diary':
+                if (!hotspot.completed) {
+                    hotspot.completed = true;
+                    /* Show the Torn Page image as fullscreen popup */
+                    GAYA.Items.show(GAYA.Config.assetPaths.tornPage, function() {
+                        /* After player dismisses the image, play narration */
+                        GAYA.Narration.show(D().dress_pocket);
+                    });
+                }
+                break;
+
             /* ---- Supporting objects (clues) ---- */
             case 'fitting_mirror':
                 state.hasSeenMirror = true; hotspot.completed = true;

@@ -1,7 +1,8 @@
 /* ============================================
    GAYA — Renderer
    All canvas drawing: tile map, furniture,
-   hotspot indicators, and candle flame effects.
+   hotspot indicators, candle flame effects,
+   pixel-art backgrounds, and object sprites.
    ============================================ */
 
 window.GAYA = window.GAYA || {};
@@ -26,7 +27,21 @@ GAYA.Renderer = (function() {
     };
 
     /* ---- Draw the tile map (floor, walls, doors) ---- */
-    function drawMap(ctx, tileMap, solid, mapColors, MW, MH, drawMapExtras) {
+    function drawMap(ctx, tileMap, solid, mapColors, MW, MH, drawMapExtras, mapBgImage) {
+
+        /* If a pixel art background image is available, draw it
+           stretched to cover the full tile-grid area */
+        if (mapBgImage && mapBgImage.complete && mapBgImage.naturalWidth > 0) {
+            var mapW = MW * TILE_SIZE;
+            var mapH = MH * TILE_SIZE;
+            ctx.drawImage(mapBgImage, 0, 0, mapW, mapH);
+
+            /* Still run drawExtras on top for banners, labels, etc. */
+            if (drawMapExtras) drawMapExtras(ctx, TILE_SIZE);
+            return;
+        }
+
+        /* ---- Fallback: procedural tile rendering ---- */
         for (var y = 0; y < MH; y++) {
             for (var x = 0; x < MW; x++) {
                 var px = x * TILE_SIZE, py = y * TILE_SIZE, tile = tileMap[y][x];
@@ -74,7 +89,7 @@ GAYA.Renderer = (function() {
     }
 
     /* ---- Draw interactive hotspot indicators ---- */
-    function drawHotspots(ctx, hotspots, animFrame, currentMapId) {
+    function drawHotspots(ctx, hotspots, animFrame, currentMapId, objectSprites) {
         hotspots.forEach(function(h) {
             if (!h.active) return;
             var px = h.x * TILE_SIZE, py = h.y * TILE_SIZE;
@@ -93,19 +108,52 @@ GAYA.Renderer = (function() {
                     drawCandleFlame(ctx, cx, py + 4);
                 }
             } else {
-                var pulse = 0.5 + 0.5 * Math.sin(animFrame * 0.05);
-                var glow = 0.12 + 0.18 * pulse;
-                ctx.fillStyle = 'rgba(212,168,86,' + glow + ')';
-                ctx.fillRect(px, py, w, ht);
-                ctx.strokeStyle = 'rgba(212,168,86,' + (0.35 + 0.25 * pulse) + ')';
-                ctx.lineWidth = 1.5;
-                ctx.strokeRect(px + 1, py + 1, w - 2, ht - 2);
-                var bob = Math.sin(animFrame * 0.06) * 3;
-                ctx.save();
-                ctx.translate(cx, py - 6 + bob);
-                ctx.fillStyle = 'rgba(212,168,86,' + (0.6 + 0.3 * pulse) + ')';
-                ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(4, 0); ctx.lineTo(0, 5); ctx.lineTo(-4, 0); ctx.closePath(); ctx.fill();
-                ctx.restore();
+                /* ---- Check if this hotspot has an object sprite ---- */
+                var spriteDrawn = false;
+                if (objectSprites && h.sprite && objectSprites[h.sprite]) {
+                    var simg = objectSprites[h.sprite];
+                    if (simg.complete && simg.naturalWidth > 0) {
+                        /* Pulsing glow behind the sprite */
+                        var pulse = 0.5 + 0.5 * Math.sin(animFrame * 0.05);
+                        var glowR = Math.max(w, ht) * 0.8;
+                        var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+                        grad.addColorStop(0, 'rgba(255, 220, 140, ' + (0.25 + 0.2 * pulse) + ')');
+                        grad.addColorStop(0.6, 'rgba(255, 200, 100, ' + (0.08 + 0.06 * pulse) + ')');
+                        grad.addColorStop(1, 'rgba(255, 200, 100, 0)');
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(cx - glowR, cy - glowR, glowR * 2, glowR * 2);
+
+                        /* Bob animation */
+                        var bob = Math.sin(animFrame * 0.04) * 2;
+
+                        /* Draw the sprite centered on the hotspot area */
+                        var aspect = simg.naturalWidth / simg.naturalHeight;
+                        var drawH = ht * 1.2;
+                        var drawW = drawH * aspect;
+                        ctx.drawImage(simg,
+                            cx - drawW / 2, cy - drawH / 2 + bob,
+                            drawW, drawH
+                        );
+                        spriteDrawn = true;
+                    }
+                }
+
+                if (!spriteDrawn) {
+                    /* Default pulsing diamond indicator */
+                    var pulse = 0.5 + 0.5 * Math.sin(animFrame * 0.05);
+                    var glow = 0.12 + 0.18 * pulse;
+                    ctx.fillStyle = 'rgba(212,168,86,' + glow + ')';
+                    ctx.fillRect(px, py, w, ht);
+                    ctx.strokeStyle = 'rgba(212,168,86,' + (0.35 + 0.25 * pulse) + ')';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(px + 1, py + 1, w - 2, ht - 2);
+                    var bob = Math.sin(animFrame * 0.06) * 3;
+                    ctx.save();
+                    ctx.translate(cx, py - 6 + bob);
+                    ctx.fillStyle = 'rgba(212,168,86,' + (0.6 + 0.3 * pulse) + ')';
+                    ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(4, 0); ctx.lineTo(0, 5); ctx.lineTo(-4, 0); ctx.closePath(); ctx.fill();
+                    ctx.restore();
+                }
             }
         });
     }

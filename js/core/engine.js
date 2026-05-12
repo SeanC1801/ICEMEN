@@ -19,8 +19,8 @@ var Gameplay = (function() {
     var inputBound = false;
 
     /* ---- Assets ---- */
-    var assets = { playerWalk: new Image(), playerIdle: new Image(), playerRun: new Image() };
-    var objectSprites = {};  // diary, tornPage, etc.
+    var assets = {};         // playerSprite, etc.
+    var objectSprites = {};  // tornPage, etc.
     var mapBgImages = {};    // pre-loaded map background images
     var currentMapBg = null; // active background for the current map
     var spritesReady = false;
@@ -50,6 +50,8 @@ var Gameplay = (function() {
         }
         mapColors = def.colors;
         drawMapExtras = def.drawExtras || null;
+        /* Set background image if one exists for this map */
+        currentMapBg = mapBgImages[mapId] || null;
         def.build(solid, tileMap, hotspots);
         GAYA.Player.init(def.playerStart.x, def.playerStart.y);
     }
@@ -57,8 +59,12 @@ var Gameplay = (function() {
     /* ---- Proximity-based interaction check ---- */
     function checkInteraction() {
         var player = GAYA.Player;
-        var ptx = Math.floor((player.x + player.width / 2) / TILE_SIZE);
-        var pty = Math.floor((player.y + player.height / 2) / TILE_SIZE);
+        var grid = player._getGrid();
+        var rs = GAYA.Config.PLAYER_RENDER_SCALE || 0.12;
+        var rw = grid.fw * rs;
+        var rh = grid.fh * rs;
+        var ptx = Math.floor((player.x + rw / 2) / TILE_SIZE);
+        var pty = Math.floor((player.y + rh / 2) / TILE_SIZE);
         nearHotspot = null;
         for (var i = 0; i < hotspots.length; i++) {
             var h = hotspots[i];
@@ -97,8 +103,8 @@ var Gameplay = (function() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.save();
         ctx.translate(-GAYA.Camera.x, -GAYA.Camera.y);
-        GAYA.Renderer.drawMap(ctx, tileMap, solid, mapColors, MW, MH, drawMapExtras);
-        GAYA.Renderer.drawHotspots(ctx, hotspots, animFrame, currentMapId);
+        GAYA.Renderer.drawMap(ctx, tileMap, solid, mapColors, MW, MH, drawMapExtras, currentMapBg);
+        GAYA.Renderer.drawHotspots(ctx, hotspots, animFrame, currentMapId, objectSprites);
         GAYA.Player.draw(ctx, assets);
         ctx.restore();
 
@@ -141,20 +147,45 @@ var Gameplay = (function() {
             return;
         }
 
+        /* ---- Collect all assets to load ---- */
         var assetPaths = GAYA.Config.assetPaths;
+        var bgPaths    = GAYA.Config.mapBackgrounds || {};
         var loaded = 0;
-        var total = Object.keys(assetPaths).length;
+        var total  = Object.keys(assetPaths).length + Object.keys(bgPaths).length;
+
+        function onAssetLoaded() {
+            loaded++;
+            if (loaded === total) {
+                spritesReady = true; running = true;
+                currentMapBg = mapBgImages[currentMapId] || null;
+                lastTime = performance.now(); requestAnimationFrame(loop);
+            }
+        }
+        function onAssetError(key) {
+            console.warn('[GAYA] Failed to load:', key);
+            onAssetLoaded();
+        }
+
+        /* ---- Load sprites ---- */
         Object.keys(assetPaths).forEach(function(key) {
-            assets[key].src = assetPaths[key];
-            var done = function() {
-                loaded++;
-                if (loaded === total) {
-                    spritesReady = true; running = true;
-                    lastTime = performance.now(); requestAnimationFrame(loop);
-                }
-            };
-            assets[key].onload = done;
-            assets[key].onerror = function() { console.warn('[GAYA] Failed:', key); done(); };
+            var img = new Image();
+            img.onload  = onAssetLoaded;
+            img.onerror = function() { onAssetError(key); };
+            img.src = assetPaths[key];
+            if (key.startsWith('player')) {
+                assets[key] = img;
+            } else {
+                objectSprites[key] = img;
+            }
+        });
+
+        /* ---- Map background images ---- */
+        Object.keys(bgPaths).forEach(function(mapKey) {
+            var img = new Image();
+            img.onload  = onAssetLoaded;
+            img.onerror = function() { onAssetError('bg:' + mapKey); };
+            img.src = bgPaths[mapKey];
+            mapBgImages[mapKey] = img;
         });
     }
 
@@ -169,6 +200,7 @@ var Gameplay = (function() {
 
     function stop() { running = false; }
     function getHotspots() { return hotspots; }
+    function getObjectSprites() { return objectSprites; }
 
-    return { loadAndStart: loadAndStart, switchMap: switchMap, stop: stop, getHotspots: getHotspots };
+    return { loadAndStart: loadAndStart, switchMap: switchMap, stop: stop, getHotspots: getHotspots, getObjectSprites: getObjectSprites };
 })();

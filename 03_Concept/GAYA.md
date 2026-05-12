@@ -11,10 +11,11 @@ Bedroom 001
 
 Bedroom 002-004
 *   **Character Action:** Gaya wakes up, sees the countdown, and jumps with excitement. "Eighteen. Today. It’s actually today."
-*   **Discovery:** She finds a torn piece of paper on the nightstand.
+
 
 Bedroom 004
 ### [PLAYER INTERACTION: Pick up torn paper]
+*   **Discovery:** She finds a torn piece of paper on the nightstand.
 **Overlay:** Gaya’s handwriting (rushed).
 > "Reminder for the big day —
 > **Living room:** the three black vases. The one with the dancing figures is still in pieces in the lower cabinet. Put it together first. Then the flowers — the basket will show you which flower belongs to which vase. Trust the shadow.

@@ -6,9 +6,13 @@ window.GAYA = window.GAYA || {};
 
 GAYA.Dialogue = {
     opening: [
-        { speaker: 'Gaya (internal)', text: "Okay. Okay. Flowers first, then the dress, then the candles. That's the order. I wrote it down somewhere \u2014 actually, I think I put the list in the flower planner. Doesn't matter. I know the order. Flowers, dress, candles. I know it." },
-        { speaker: 'Gaya (internal)', text: "Mommy's already here somewhere. I can hear her moving around. She's been doing so much \u2014 I keep telling her I can handle it, but you know how she is. She can't just sit." },
-        { speaker: 'Gaya (internal)', text: 'Okay. Flowers first.' }
+        /* Slide 1: Bedroom 001 — no dialog (cinematic pause, handled in opening.js) */
+        /* Slide 2: Bedroom 002 — yawning */
+        { speaker: 'Gaya', text: "Mommy's already here somewhere. I can hear her moving around. She's been doing so much \u2014 I keep telling her I can handle it, but you know how she is. She can't just sit." },
+        /* Slide 3: Bedroom 003 — sitting up */
+        { speaker: 'Gaya', text: "Okay. Okay. Flowers first, then the dress, then the candles. That's the order. I wrote it down somewhere \u2014 actually, I think I put the list in the flower planner. Doesn't matter. I know the order. Flowers, dress, candles. I know it." },
+        /* Slide 4: Bedroom 004 — lit room */
+        { speaker: 'Gaya', text: 'Okay. Flowers first.' }
     ],
 
     level1: {
@@ -18,7 +22,7 @@ GAYA.Dialogue = {
         ],
         photograph: [
             { speaker: 'Gaya', text: "Lola's family gathering. The sala was so full that day." },
-            { speaker: 'Gaya (internal)', text: "Look at the flowers. Sampaguita at the entrance. Roses at the center. Lilies on the sides. Six arrangements total. That's what I want." }
+            { speaker: 'Gaya', text: "Look at the flowers. Sampaguita at the entrance. Roses at the center. Lilies on the sides. Six arrangements total. That's what I want." }
         ],
         flower_entrance: [{ speaker: 'Gaya', text: 'Sampaguita for the entrance. Clean and simple. I wanted people to feel it the moment they walk in \u2014 like a welcome.' }],
         flower_center:   [{ speaker: 'Gaya', text: 'Roses for the center table. The focal point. Everything draws the eye here.' }],
@@ -26,7 +30,7 @@ GAYA.Dialogue = {
         no_reference:    [{ speaker: 'Gaya', text: 'I should figure out where these go first. I had a reference somewhere...' }],
         flowers_done: [
             { speaker: 'Gaya', text: "I knew Mommy would love it. She always acts like I'm overdoing things and then when she actually sees it \u2014 I knew." },
-            { speaker: 'Gaya (internal)', text: "(There's a subtle rattling sound coming from the center vase...)" }
+            { speaker: 'Gaya', text: "(There's a subtle rattling sound coming from the center vase...)" }
         ],
         vase_diary: [
             { speaker: 'Diary Page', text: "\u201C...Ang pagod ko. I don't even know why... yung pagod na walang dahilan. I'll sleep early tonight, siguro that's it.\u201D" },
@@ -36,16 +40,16 @@ GAYA.Dialogue = {
 
     level2: {
         intro: [
-            { speaker: 'Gaya (internal)', text: "The dress is here. I tried to just look at it for a minute without touching it. I couldn't. The embroidery at the neckline is exactly what Mommy described." },
-            { speaker: 'Gaya (internal)', text: "I want to wear it perfectly. I want every part of it to be exactly right. Not for the photographs \u2014 for me." }
+            { speaker: 'Gaya', text: "The dress is here. I tried to just look at it for a minute without touching it. I couldn't. The embroidery at the neckline is exactly what Mommy described." },
+            { speaker: 'Gaya', text: "I want to wear it perfectly. I want every part of it to be exactly right. Not for the photographs \u2014 for me." }
         ],
         fitting_mirror: [
             { speaker: 'Gaya', text: 'A fitting mirror. For checking hems at floor level.' },
-            { speaker: 'Gaya (internal)', text: "Wait \u2014 looking through it, the hem dips slightly on the left side. I wouldn't have seen that from standing." }
+            { speaker: 'Gaya', text: "Wait \u2014 looking through it, the hem dips slightly on the left side. I wouldn't have seen that from standing." }
         ],
         magazine: [
             { speaker: 'Gaya', text: 'A debut spread. The debutante in the picture has her sleeves folded back one clean turn.' },
-            { speaker: 'Gaya (internal)', text: "That's it. That's how the sleeves should look." }
+            { speaker: 'Gaya', text: "That's it. That's how the sleeves should look." }
         ],
         dress_fabric: [
             { speaker: 'Gaya', text: "There \u2014 a ripple running against the grain of the fabric. Small, but I can see it." },
@@ -63,7 +67,7 @@ GAYA.Dialogue = {
         ],
         mirror_1: [{ speaker: 'Gaya', text: "Beautiful. I'll wear it and I'll feel like \u2014 the version of myself that I was supposed to be." }],
         mirror_2: [
-            { speaker: 'Gaya (internal)', text: 'The reflection moved... a half-second after I did.' },
+            { speaker: 'Gaya', text: 'The reflection moved... a half-second after I did.' },
             { speaker: 'Gaya', text: 'Must be the light.' }
         ],
         mirror_3: [
@@ -101,8 +105,8 @@ GAYA.Dialogue = {
 
     level3: {
         intro: [
-            { speaker: 'Gaya (internal)', text: 'The sala looks different now. Evening light. The flowers are all in place. The candles are waiting.' },
-            { speaker: 'Gaya (internal)', text: "Seven candles. I chose seven because I kept looking at the number and it felt like enough. Like seven was the exact number of things I'm still hoping for." }
+            { speaker: 'Gaya', text: 'The sala looks different now. Evening light. The flowers are all in place. The candles are waiting.' },
+            { speaker: 'Gaya', text: "Seven candles. I chose seven because I kept looking at the number and it felt like enough. Like seven was the exact number of things I'm still hoping for." }
         ],
         candle_page: [
             { speaker: 'Torn Page', text: "\u201CSeven candles. I chose seven because I kept looking at the number and it felt like enough. I want to light them myself. I want to be the one who lights them.\u201D" },
@@ -110,14 +114,14 @@ GAYA.Dialogue = {
         ],
         mother_note: [
             { speaker: 'Handwritten Note', text: '\u201CIsa-isa, mula sa puso.\u201D One by one, from the heart.' },
-            { speaker: 'Gaya (internal)', text: 'Center first. Then outward.' }
+            { speaker: 'Gaya', text: 'Center first. Then outward.' }
         ],
         no_order:      [{ speaker: 'Gaya', text: 'I need to figure out the order first...' }],
         wrong_candle:  [{ speaker: 'Gaya', text: 'Not this one yet. From the heart outward.' }],
         candle_7_early:[{ speaker: 'Gaya', text: 'Not yet. The others first.' }],
         candle_7: [
             { speaker: 'Gaya', text: 'The last one. Here.' },
-            { speaker: 'Gaya (internal)', text: "There's something under it." }
+            { speaker: 'Gaya', text: "There's something under it." }
         ],
         candle_diary: [
             { speaker: 'Gaya', text: "Oh \u2014 one more. How many did I hide? [small laugh] I forget sometimes, that I do this." },

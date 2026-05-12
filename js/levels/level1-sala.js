@@ -1,7 +1,9 @@
 /* ============================================
-   GAYA — Level 1: The Sala (Flowers)
-   Flower arrangement puzzle with torn page,
-   photograph reference, and diary discovery.
+   GAYA — Level 1: The Bedroom (Reading the Torn Page)
+   First gameplay after the opening cutscene.
+   
+   Objective 1: Walk to the desk and read the notebook.
+   Objective 2: Exit through the door to the living room.
    ============================================ */
 
 window.GAYA = window.GAYA || {};
@@ -11,9 +13,10 @@ GAYA.Levels.Level1 = (function() {
     'use strict';
 
     var D = function() { return GAYA.Dialogue.level1; };
-    var state = { hasPage: false, hasSeenPhoto: false, flowersPlaced: 0 };
+    var state = { hasReadPage: false };
 
     function start() {
+        state.hasReadPage = false;
         Gameplay.loadAndStart(handleInteract, 'sala');
     }
 
@@ -22,60 +25,52 @@ GAYA.Levels.Level1 = (function() {
 
         switch (hotspot.id) {
             case 'torn_page':
-                if (!state.hasPage) {
-                    state.hasPage = true; hotspot.completed = true;
-                    GAYA.Narration.show(D().torn_page);
-                }
-                break;
-
-            case 'photograph':
-                state.hasSeenPhoto = true;
-                GAYA.Narration.show(D().photograph);
-                break;
-
-            case 'flower_0': case 'flower_1': case 'flower_2':
-            case 'flower_3': case 'flower_4': case 'flower_5':
-                if (!state.hasSeenPhoto) {
-                    GAYA.Narration.show(D().no_reference);
-                    return;
-                }
-                if (!hotspot.completed) {
+                if (!state.hasReadPage) {
+                    state.hasReadPage = true;
                     hotspot.completed = true;
-                    state.flowersPlaced++;
 
-                    if (hotspot.id === 'flower_0' || hotspot.id === 'flower_1')
-                        GAYA.Narration.show(D().flower_entrance);
-                    else if (hotspot.id === 'flower_2')
-                        GAYA.Narration.show(D().flower_center);
-                    else
-                        GAYA.Narration.show(D().flower_sides);
-
-                    if (state.flowersPlaced === 6) {
-                        var hs = Gameplay.getHotspots();
-                        var vase = hs.find(function(h) { return h.id === 'vase_diary'; });
-                        if (vase) vase.active = true;
-                        setTimeout(function() {
-                            GAYA.Narration.show(D().flowers_done);
-                        }, 3000);
-                    }
-                }
-                break;
-
-            case 'vase_diary':
-                if (!hotspot.completed) {
-                    hotspot.completed = true;
-                    GAYA.Narration.show(D().vase_diary, function() {
-                        Gameplay.stop();
-                        var fade = GAYA.Scene.getFadeOverlay();
-                        setTimeout(function() {
-                            fade.classList.add('active');
-                            setTimeout(function() {
-                                GAYA.State.currentScreen = 'level2';
-                                fade.classList.remove('active');
-                                GAYA.Levels.Level2.start();
-                            }, 1200);
-                        }, 800);
+                    /* Show the Torn Page 001 image popup, then narration */
+                    GAYA.Items.show(GAYA.Config.assetPaths.tornPage, function() {
+                        GAYA.Narration.show(D().torn_page, function() {
+                            /* After reading, enable the door exit */
+                            var hs = Gameplay.getHotspots();
+                            var door = hs.find(function(h) { return h.id === 'door_exit'; });
+                            if (door) {
+                                door.active = true;
+                                /* Prompt the player */
+                                setTimeout(function() {
+                                    GAYA.Narration.show([
+                                        { speaker: 'Gaya', text: 'I should head to the living room.' }
+                                    ]);
+                                }, 1000);
+                            }
+                        });
                     });
+                }
+                break;
+
+            case 'door_exit':
+                if (state.hasReadPage) {
+                    hotspot.completed = true;
+                    /* Transition to the living room (Level 2 or placeholder) */
+                    Gameplay.stop();
+                    var fade = GAYA.Scene.getFadeOverlay();
+                    setTimeout(function() {
+                        fade.classList.add('active');
+                        setTimeout(function() {
+                            GAYA.State.currentScreen = 'level2';
+                            fade.classList.remove('active');
+                            /* Start Level 2 when the living room map is ready.
+                               For now, show a placeholder narration. */
+                            if (GAYA.Levels.Level2) {
+                                GAYA.Levels.Level2.start();
+                            } else {
+                                GAYA.Narration.show([
+                                    { speaker: 'Gaya', text: 'The living room...' }
+                                ]);
+                            }
+                        }, 1200);
+                    }, 800);
                 }
                 break;
         }

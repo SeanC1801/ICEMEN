@@ -55,6 +55,7 @@
             <img class="cutscene-slide active" id="cutscene-1" src="04_Locations/Cutscene/Bedroom 001.png" alt="" draggable="false">
             <img class="cutscene-slide" id="cutscene-2" src="04_Locations/Cutscene/Bedroom 002.png" alt="" draggable="false">
             <img class="cutscene-slide" id="cutscene-3" src="04_Locations/Cutscene/Bedroom 003.png" alt="" draggable="false">
+            <img class="cutscene-slide" id="cutscene-4" src="04_Locations/Cutscene/Bedroom 004.png" alt="" draggable="false">
             <!-- Cinematic letterbox bars -->
             <div class="cutscene-letterbox cutscene-letterbox-top"></div>
             <div class="cutscene-letterbox cutscene-letterbox-bottom"></div>
@@ -93,6 +94,15 @@
         </div>
     </div>
 
+    <!-- ========== ITEM INSPECT OVERLAY ========== -->
+    <div id="item-overlay" class="item-overlay hidden">
+        <div class="item-backdrop"></div>
+        <div class="item-frame">
+            <img id="item-image" class="item-image" src="" alt="" draggable="false">
+        </div>
+        <div class="item-hint">Press anywhere to continue</div>
+    </div>
+
     <!-- ========== FADE OVERLAY ========== -->
     <div id="fade-overlay" class="fade-overlay"></div>
 
@@ -112,6 +122,7 @@
     <script src="js/core/narration.js"></script>
     <script src="js/core/scene.js"></script>
     <script src="js/core/petals.js"></script>
+    <script src="js/core/items.js"></script>
 
     <!-- Level Scripts -->
     <script src="js/levels/opening.js"></script>

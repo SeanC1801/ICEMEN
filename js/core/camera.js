@@ -12,10 +12,15 @@ GAYA.Camera = {
 
     update: function(player, canvas, MW, MH) {
         var TILE_SIZE = GAYA.Config.TILE_SIZE;
+        var RS = GAYA.Config.PLAYER_RENDER_SCALE || 0.12;
+        var grid = player._getGrid();
+        var pw = grid.fw * RS;
+        var ph = grid.fh * RS;
+
         var tw = MW * TILE_SIZE;
         var th = MH * TILE_SIZE;
-        var tx = player.x + player.width / 2 - canvas.width / 2;
-        var ty = player.y + player.height / 2 - canvas.height / 2;
+        var tx = player.x + pw / 2 - canvas.width / 2;
+        var ty = player.y + ph / 2 - canvas.height / 2;
 
         // Smooth follow
         this.x += (tx - this.x) * 0.1;
