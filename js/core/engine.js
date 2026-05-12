@@ -20,6 +20,9 @@ var Gameplay = (function() {
 
     /* ---- Assets ---- */
     var assets = { playerWalk: new Image(), playerIdle: new Image(), playerRun: new Image() };
+    var objectSprites = {};  // diary, tornPage, etc.
+    var mapBgImages = {};    // pre-loaded map background images
+    var currentMapBg = null; // active background for the current map
     var spritesReady = false;
 
     /* ---- Input state ---- */
