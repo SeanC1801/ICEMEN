@@ -110,52 +110,47 @@ GAYA.Dialogue = {
     },
 
     level2: {
-        intro: [
-            { speaker: 'Gaya', text: "The dress is here. I tried to just look at it for a minute without touching it. I couldn't. The embroidery at the neckline is exactly what Mommy described." },
-            { speaker: 'Gaya', text: "I want to wear it perfectly. I want every part of it to be exactly right. Not for the photographs \u2014 for me." }
+        /* Bedroom 015 — Opening */
+        opening: [
+            { speaker: 'Gaya', text: 'My debut dress.' },
+            { speaker: 'Gaya', text: 'I wonder if I should put it on.' }
         ],
-        fitting_mirror: [
-            { speaker: 'Gaya', text: 'A fitting mirror. For checking hems at floor level.' },
-            { speaker: 'Gaya', text: "Wait \u2014 looking through it, the hem dips slightly on the left side. I wouldn't have seen that from standing." }
+        /* Bedroom 016 — After changing into the dress */
+        after_changing: [
+            { speaker: 'Gaya', text: 'It still fits perfectly.' },
+            { speaker: 'Gaya', text: 'But looking at it like this... something feels off.' },
+            { speaker: 'Gaya', text: 'I should check the mirror.' }
         ],
-        magazine: [
-            { speaker: 'Gaya', text: 'A debut spread. The debutante in the picture has her sleeves folded back one clean turn.' },
-            { speaker: 'Gaya', text: "That's it. That's how the sleeves should look." }
+        /* Bedroom 018 — Memory at the mirror */
+        memory: [
+            { speaker: 'Gaya', text: 'That drawing... the one I made of how I wanted to look on my debut.' },
+            { speaker: 'Gaya', text: 'I remember exactly how I pictured myself.' },
+            { speaker: 'Gaya', text: 'I need to fix this.' }
         ],
-        dress_fabric: [
-            { speaker: 'Gaya', text: "There \u2014 a ripple running against the grain of the fabric. Small, but I can see it." },
-            { speaker: 'Gaya', text: 'Smooth it out. Perfect.' }
+        /* Spot the differences — Hair */
+        diff_hair: [
+            { speaker: 'Gaya', text: 'The hair... in the drawing, it\u2019s tied up differently.' },
+            { speaker: 'Gaya', text: 'I wanted it pulled back like that. Let me fix it.' }
         ],
-        dress_collar: [
-            { speaker: 'Gaya', text: 'Two buttons fastened. One unfastened \u2014 the second from the bottom.' },
-            { speaker: 'Gaya', text: 'Got it. All three now.' }
+        /* Spot the differences — Pin */
+        diff_pin: [
+            { speaker: 'Gaya', text: 'The pin on the dress \u2014 I drew it right there, on the chest.' },
+            { speaker: 'Gaya', text: 'How did I forget to put it on?' }
         ],
-        dress_hem:     [{ speaker: 'Gaya', text: 'The hem dips on the left. I only saw it through the fitting mirror. Fixed.' }],
-        dress_sleeves: [{ speaker: 'Gaya', text: 'Fold the sleeves back one clean turn. Like the magazine. There.' }],
-        dress_lace: [
-            { speaker: 'Gaya', text: 'The neckline lace is bunched slightly at the right side. Almost right. Almost is not what I wrote.' },
-            { speaker: 'Gaya', text: "There. Now it's right." }
+        /* Bedroom 020 — Completion */
+        completion: [
+            { speaker: 'Gaya', text: 'That\u2019s better. Now... I just need to put on my shoes.' }
         ],
-        mirror_1: [{ speaker: 'Gaya', text: "Beautiful. I'll wear it and I'll feel like \u2014 the version of myself that I was supposed to be." }],
-        mirror_2: [
-            { speaker: 'Gaya', text: 'The reflection moved... a half-second after I did.' },
-            { speaker: 'Gaya', text: 'Must be the light.' }
+        /* Bedroom 021 — Note discovery */
+        note_discovery: [
+            { speaker: 'Gaya', text: 'Wait...' },
+            { speaker: 'Gaya', text: 'What is this piece of paper doing here?' }
         ],
-        mirror_3: [
-            { speaker: '...', text: 'For two seconds, the reflection is empty. The dress is on the bed. The room is as it is. In the doorway, the mother stands watching.' },
-            { speaker: 'Gaya', text: "I'm tired, that's all. I've been tired for \u2014 it's fine. It'll be fine after. Everything will be fine after." }
-        ],
-        shoes_empty: [{ speaker: 'Gaya', text: 'Shoes later, I think. The dress first.' }],
-        dress_pocket: [
-            { speaker: 'Gaya', text: "Oh, I put this here? Smart naman. I always forget where I leave things and then they're exactly where I left them." },
-            { speaker: 'Diary Page', text: "\u201CI think I'm very good at being okay. Like, it's almost impressive kung gano kaya ko gawin. I just don't know what I do with all the not-okay...\u201D" },
-            { speaker: 'Diary Page', text: "\u201CThe dress arrived. It's so beautiful. The debut is close na. I keep thinking \u2014 after this, things will feel different. They have to. Right?\u201D" },
-            { speaker: 'Gaya (quiet)', text: "She always knows what's missing." }
-        ],
-        dress_complete: [
-            { speaker: 'Mother (from the doorway)', text: '\u201CLigaya.\u201D' },
-            { speaker: 'Gaya (delighted)', text: "Mommy! Yes, I fixed the hem already \u2014 look, it falls perfectly now. The lace at the neckline too, it looks perfect\u2014" },
-            { speaker: 'Gaya (quieter)', text: 'She always loved this dress. She was right about the embroidery.' }
+        /* Diary Entry 2 */
+        diary_entry_2: [
+            { speaker: 'Diary Entry \u2014 October 14', text: '...Mommy walked into the room...' },
+            { speaker: 'Diary Entry \u2014 October 14', text: 'She looked at me for a second and said \u2014 why do you look like you\u2019re apologizing?' },
+            { speaker: 'Gaya', text: '...What would it feel like to just look like myself and not want to apologize for it?' }
         ]
     },
 

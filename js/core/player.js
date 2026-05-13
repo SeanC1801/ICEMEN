@@ -22,7 +22,7 @@ GAYA.Player = (function() {
     var TILE_SIZE = CFG.TILE_SIZE;
     var ANIM_FPS = CFG.ANIM_FPS || 8;
     var MOVE_SPEED = CFG.MOVE_SPEED || 150;
-    var RENDER_SCALE = CFG.PLAYER_RENDER_SCALE || 0.12;
+    function RENDER_SCALE() { return CFG.PLAYER_RENDER_SCALE || 0.12; }
     var GRID = CFG.spriteGrid;
 
     /* Pre-extracted frame canvases */
@@ -32,48 +32,61 @@ GAYA.Player = (function() {
     function extractFrames(img) {
         if (frames) return;
 
-        var cols = GRID.cols;  // 6
-        var fw = GRID.fw;     // 504
-        var fh = GRID.fh;     // 634
+        var cols = GRID.cols;
+        var fw = GRID.fw;
+        var fh = GRID.fh;
+        /* How many rows per direction (default 2 for the 6×6 sheet, 1 for 4-row sheets) */
+        var rpd = GRID.rowsPerDir || 2;
 
         frames = { down: [], right: [], left: [], up: [] };
 
-        /* Row 0-1 → Down/Front (12 frames) */
-        for (var r = 0; r < 2; r++) {
+        /* Direction layout: down, right, up (standard order) */
+        /* Row group 0 → Down/Front */
+        for (var r = 0; r < rpd; r++) {
             for (var c = 0; c < cols; c++) {
                 var canvas = _cutFrame(img, c * fw, r * fh, fw, fh);
                 frames.down.push(canvas);
             }
         }
 
-        /* Row 2-3 → Right (12 frames) */
-        for (var r = 2; r < 4; r++) {
-            for (var c = 0; c < cols; c++) {
-                var canvas = _cutFrame(img, c * fw, r * fh, fw, fh);
-                frames.right.push(canvas);
-            }
-        }
-
-        /* Row 4-5 → Up/Back (12 frames) */
-        for (var r = 4; r < 6; r++) {
+        /* Row group 1 → Up/Back */
+        for (var r = rpd; r < rpd * 2; r++) {
             for (var c = 0; c < cols; c++) {
                 var canvas = _cutFrame(img, c * fw, r * fh, fw, fh);
                 frames.up.push(canvas);
             }
         }
 
-        /* Left = mirrored Right */
-        frames.left = [];
-        for (var i = 0; i < frames.right.length; i++) {
-            var src = frames.right[i];
-            var lc = document.createElement('canvas');
-            lc.width = fw; lc.height = fh;
-            var lctx = lc.getContext('2d');
-            lctx.save();
-            lctx.scale(-1, 1);
-            lctx.drawImage(src, -fw, 0);
-            lctx.restore();
-            frames.left.push(lc);
+        /* Row group 2 → Right (or side) */
+        for (var r = rpd * 2; r < rpd * 3; r++) {
+            for (var c = 0; c < cols; c++) {
+                var canvas = _cutFrame(img, c * fw, r * fh, fw, fh);
+                frames.right.push(canvas);
+            }
+        }
+
+        /* Check if there's a 4th group for explicit left frames */
+        if (GRID.rows >= rpd * 4) {
+            for (var r = rpd * 3; r < rpd * 4; r++) {
+                for (var c = 0; c < cols; c++) {
+                    var canvas = _cutFrame(img, c * fw, r * fh, fw, fh);
+                    frames.left.push(canvas);
+                }
+            }
+        } else {
+            /* Left = mirrored Right */
+            frames.left = [];
+            for (var i = 0; i < frames.right.length; i++) {
+                var src = frames.right[i];
+                var lc = document.createElement('canvas');
+                lc.width = fw; lc.height = fh;
+                var lctx = lc.getContext('2d');
+                lctx.save();
+                lctx.scale(-1, 1);
+                lctx.drawImage(src, -fw, 0);
+                lctx.restore();
+                frames.left.push(lc);
+            }
         }
     }
 
@@ -139,8 +152,8 @@ GAYA.Player = (function() {
             }
 
             /* Collision detection */
-            var rw = GRID.fw * RENDER_SCALE;
-            var rh = GRID.fh * RENDER_SCALE;
+            var rw = GRID.fw * RENDER_SCALE();
+            var rh = GRID.fh * RENDER_SCALE();
             var cw = rw * 0.4;
             var ch = rh * 0.2;
             var offsetX = (rw - cw) / 2;
@@ -219,8 +232,8 @@ GAYA.Player = (function() {
             var f = this.frame % dirFrames.length;
             var sprite = dirFrames[f];
 
-            var dw = sprite.width * RENDER_SCALE;
-            var dh = sprite.height * RENDER_SCALE;
+            var dw = sprite.width * RENDER_SCALE();
+            var dh = sprite.height * RENDER_SCALE();
 
             /* Shadow */
             ctx.fillStyle = 'rgba(0,0,0,0.12)';
@@ -238,6 +251,17 @@ GAYA.Player = (function() {
             ctx.drawImage(sprite, Math.floor(this.x), Math.floor(this.y), dw, dh);
             ctx.imageSmoothingEnabled = true;
         }
+    };
+
+    /* ---- Swap sprite sheet at runtime ---- */
+    player.swapSprite = function(img, gridOverride) {
+        var oldGrid = GRID;
+        if (gridOverride) {
+            GRID = gridOverride;
+            CFG.spriteGrid = gridOverride;
+        }
+        frames = null; // force re-extraction
+        extractFrames(img);
     };
 
     return player;

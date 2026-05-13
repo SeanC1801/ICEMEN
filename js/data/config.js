@@ -17,12 +17,15 @@ GAYA.Config = {
     assetPaths: {
         /* Single unified sprite sheet: 6 cols × 6 rows, 504×634 per frame */
         playerSprite: "01_Assets/Character_Sprites/Gaya/sprite-max-px-36.png",
+        /* White dress with pin sprite (Level 2 after dress change) */
+        playerSpriteWhiteDress: "01_Assets/Character_Sprites/Gaya/gaya sprite sheet, white dress with pin.png",
         tornPage:     "01_Assets/Objects/Torn Page 001.png",
         basketFlowers:"01_Assets/Objects/Basket with Flowers.png",
     },
 
     /* Map background images — all states for progressive reveals */
     mapBackgrounds: {
+        /* Level 1 */
         bedroom:        "04_Locations/Levels/Level 1/Bedroom 005.png",
         livingroom:     "04_Locations/Levels/Level 1/Livingroom 005.png",
         livingroom_006: "04_Locations/Levels/Level 1/Livingroom 006.png",
@@ -34,6 +37,15 @@ GAYA.Config = {
         livingroom_012: "04_Locations/Levels/Level 1/Livingroom 012.png",
         livingroom_013: "04_Locations/Levels/Level 1/Livingroom 013.png",
         livingroom_014: "04_Locations/Levels/Level 1/Livingroom 014.png",
+
+        /* Level 2 — Bedroom progression */
+        bedroom_015: "04_Locations/Levels/Level 1/Bedroom 005.png",   /* Reuse 005 as opening room */
+        bedroom_016: "04_Locations/Levels/Level 1/Bedroom 005.png",   /* Same room after changing */
+        bedroom_017: "04_Locations/Levels/Level 2/Bedroom 017.png",   /* Gaya at mirror */
+        bedroom_018: "04_Locations/Levels/Level 2/Bedroom 018.png",   /* Drawing appears */
+        bedroom_019: "04_Locations/Levels/Level 2/Bedroom 019.png",   /* Differences circled */
+        bedroom_020: "04_Locations/Levels/Level 2/Bedroom 020.png",   /* Completion — matched */
+        bedroom_021: "04_Locations/Levels/Level 2/Bedroom 021.png",   /* Wide room, note on bed */
     },
 
     /* Sprite grid: 6 cols × 6 rows from 3024×3804 sheet */
@@ -43,6 +55,17 @@ GAYA.Config = {
         fw: 504,
         fh: 634,
         framesPerDir: 12,
+        rowsPerDir: 2,
+    },
+
+    /* White dress sprite grid: 3 cols × 4 rows from 481×519 sheet */
+    whiteDressSpriteGrid: {
+        cols: 3,
+        rows: 4,
+        fw: 160,
+        fh: 130,
+        framesPerDir: 3,
+        rowsPerDir: 1,
     }
 };
 

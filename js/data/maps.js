@@ -56,8 +56,15 @@ GAYA.Maps.bedroom = {
         for (var x = 9; x <= 14; x++) s[13][x] = false;
 
         /* ===== HOTSPOTS ===== */
+        /* Level 1 hotspots */
         h.push({ id:'torn_page', x:9, y:3, w:2, h:1, label:'Notebook', active:true });
         h.push({ id:'door_exit', x:10, y:12, w:4, h:2, label:'Go to the Living Room', active:false });
+
+        /* Level 2 hotspots (activated by level2-bedroom.js) */
+        h.push({ id:'white_dress', x:5, y:3, w:3, h:2, label:'White Gown', active:false });
+        h.push({ id:'full_mirror', x:11, y:3, w:2, h:2, label:'Full-length Mirror', active:false });
+        h.push({ id:'bed_shoes', x:8, y:5, w:2, h:1, label:'Get Shoes', active:false });
+        h.push({ id:'torn_note', x:6, y:3, w:2, h:1, label:'Piece of Paper', active:false });
     },
     drawExtras: null
 };
