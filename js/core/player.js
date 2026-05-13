@@ -35,12 +35,25 @@ GAYA.Player = (function() {
         var cols = GRID.cols;
         var fw = GRID.fw;
         var fh = GRID.fh;
-        /* How many rows per direction (default 2 for the 6×6 sheet, 1 for 4-row sheets) */
-        var rpd = GRID.rowsPerDir || 2;
 
         frames = { down: [], right: [], left: [], up: [] };
 
-        /* Direction layout: down, right, up (standard order) */
+        /* If singleRow is set, all directions share the same frames from row 0 */
+        if (GRID.singleRow) {
+            var shared = [];
+            for (var c = 0; c < cols; c++) {
+                shared.push(_cutFrame(img, c * fw, 0, fw, fh));
+            }
+            frames.down = shared;
+            frames.up = shared;
+            frames.right = shared;
+            frames.left = shared;
+            return;
+        }
+
+        /* How many rows per direction (default 2 for the 6×6 sheet) */
+        var rpd = GRID.rowsPerDir || 2;
+
         /* Row group 0 → Down/Front */
         for (var r = 0; r < rpd; r++) {
             for (var c = 0; c < cols; c++) {

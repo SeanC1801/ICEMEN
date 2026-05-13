@@ -19,8 +19,11 @@ GAYA.Config = {
         playerSprite: "01_Assets/Character_Sprites/Gaya/sprite-max-px-36.png",
         /* White dress with pin sprite (Level 2 after dress change) */
         playerSpriteWhiteDress: "01_Assets/Character_Sprites/Gaya/gaya sprite sheet, white dress with pin.png",
-        tornPage:     "01_Assets/Objects/Torn Page 001.png",
-        basketFlowers:"01_Assets/Objects/Basket with Flowers.png",
+        tornPage:      "01_Assets/Objects/Torn Page 001.png",
+        basketFlowers: "01_Assets/Objects/Basket with Flowers.png",
+        /* Level 2 object sprites */
+        whiteDress:    "01_Assets/Objects/white dress.png",
+        tornPageSmall: "01_Assets/Objects/torn page.png",
     },
 
     /* Map background images — all states for progressive reveals */
@@ -37,15 +40,14 @@ GAYA.Config = {
         livingroom_012: "04_Locations/Levels/Level 1/Livingroom 012.png",
         livingroom_013: "04_Locations/Levels/Level 1/Livingroom 013.png",
         livingroom_014: "04_Locations/Levels/Level 1/Livingroom 014.png",
+    },
 
-        /* Level 2 — Bedroom progression */
-        bedroom_015: "04_Locations/Levels/Level 1/Bedroom 005.png",   /* Reuse 005 as opening room */
-        bedroom_016: "04_Locations/Levels/Level 1/Bedroom 005.png",   /* Same room after changing */
-        bedroom_017: "04_Locations/Levels/Level 2/Bedroom 017.png",   /* Gaya at mirror */
-        bedroom_018: "04_Locations/Levels/Level 2/Bedroom 018.png",   /* Drawing appears */
-        bedroom_019: "04_Locations/Levels/Level 2/Bedroom 019.png",   /* Differences circled */
-        bedroom_020: "04_Locations/Levels/Level 2/Bedroom 020.png",   /* Completion — matched */
-        bedroom_021: "04_Locations/Levels/Level 2/Bedroom 021.png",   /* Wide room, note on bed */
+    /* Cutscene images (fullscreen slides, not map backgrounds) */
+    cutscenePaths: {
+        bedroom_017: "04_Locations/Cutscene/Bedroom 017.png",
+        bedroom_018: "04_Locations/Cutscene/Bedroom 018.png",
+        bedroom_019: "04_Locations/Cutscene/Bedroom 019.png",
+        bedroom_020: "04_Locations/Cutscene/Bedroom 020.png",
     },
 
     /* Sprite grid: 6 cols × 6 rows from 3024×3804 sheet */
@@ -58,14 +60,17 @@ GAYA.Config = {
         rowsPerDir: 2,
     },
 
-    /* White dress sprite grid: 3 cols × 4 rows from 481×519 sheet */
+    /* White dress sprite grid: use first 4 frames from top row only.
+       481×519 sheet → 4 frames across top row, fw=120, fh=130.
+       All directions reuse these same 4 frames. */
     whiteDressSpriteGrid: {
-        cols: 3,
-        rows: 4,
-        fw: 160,
+        cols: 4,
+        rows: 1,
+        fw: 120,
         fh: 130,
-        framesPerDir: 3,
+        framesPerDir: 4,
         rowsPerDir: 1,
+        singleRow: true,   /* flag: all directions use the same row */
     }
 };
 
