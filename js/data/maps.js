@@ -186,3 +186,57 @@ GAYA.Maps.livingroom = {
     },
     drawExtras: null
 };
+
+/* ============================================
+   KITCHEN  (Kitchen Collision Guide)
+   
+   RED = blocked (walls, counters, fridge,
+         candle table, bench)
+   GREEN = walkable floor
+   24 cols × 12 rows
+   ============================================ */
+GAYA.Maps.kitchen = {
+    width: 24,
+    height: 12,
+    colors: {
+        floor: '#8a7a60', floorAlt: '#857560',
+        wall: '#5a4a38', wallTop: '#4a3a28',
+        door: '#6b5a48', furniture: '#6b5a48', furnitureTop: '#8a7a68'
+    },
+    playerStart: { x: 3, y: 9 },
+    build: function(s, t, h) {
+        /* Top wall — rows 0-1 all solid */
+        _addSolid(s, 0, 0, 24, 2, 'wall');
+
+        /* Left wall col 0 */
+        _addSolid(s, 0, 2, 2, 4, 'wall');
+
+        /* Counters + fridge — row 2-4 cols 2-23 */
+        _addSolid(s, 4, 2, 20, 3, 'counter');
+
+        /* Candle table — center of room */
+        _addSolid(s, 7, 5, 9, 3, 'table');
+
+        /* Bench below table */
+        _addSolid(s, 8, 8, 6, 1, 'bench');
+
+        /* Right counter edge */
+        _addSolid(s, 22, 5, 2, 2, 'counter');
+
+        /* Bottom wall */
+        _addSolid(s, 0, 11, 24, 1, 'wall');
+
+        /* ===== HOTSPOTS ===== */
+        /* 3 hidden unlit candles around the kitchen */
+        h.push({ id:'candle_1', x:3,  y:5, w:1, h:1, label:'Something on the shelf...', active:false, sprite:'unlitCandle' });
+        h.push({ id:'candle_2', x:20, y:6, w:1, h:1, label:'A candle behind the jars...', active:false, sprite:'unlitCandle' });
+        h.push({ id:'candle_3', x:5,  y:9, w:1, h:1, label:'A candle under the bench...', active:false, sprite:'unlitCandle' });
+
+        /* 18th candle — final interaction */
+        h.push({ id:'candle_18', x:11, y:5, w:2, h:1, label:'The 18th candle...', active:false });
+
+        /* Diary under the 18th candle */
+        h.push({ id:'diary_3', x:11, y:6, w:2, h:1, label:'A folded page...', active:false, sprite:'tornPageSmall' });
+    },
+    drawExtras: null
+};

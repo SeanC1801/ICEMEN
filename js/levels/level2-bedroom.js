@@ -1,20 +1,12 @@
 /* ============================================
    GAYA — Level 2: The Bedroom
    
-   PHASE 0: Opening — Gaya sees the white dress
-   PHASE 1: Try on the dress (fade to black, sprite swap)
-   PHASE 2: Mirror scene → Spot the Differences puzzle
-   PHASE 3: Completion — dress matches drawing
-   PHASE 4: Hidden note discovery + Diary Entry 2
-
-   Background progression:
-     015 → room with dress on bed (opening)
-     016 → after changing (dialogue)
-     017 → Gaya at the mirror
-     018 → drawing appears (memory)
-     019 → differences circled (puzzle active)
-     020 → matched / completion
-     021 → wide bedroom, torn note on bed
+   Simple flow:
+   1. Opening dialogue → dress hotspot appears on bed
+   2. Interact with dress → fade → sprite swap → dialogue
+   3. Walk to mirror → cutscene slides (017→018→019→020)
+   4. Return to gameplay → torn note appears on bed
+   5. Read note → diary entry → transition
    ============================================ */
 
 window.GAYA = window.GAYA || {};
@@ -26,11 +18,34 @@ GAYA.Levels.Level2 = (function() {
     var D = function() { return GAYA.Dialogue.level2; };
 
     var state = {
-        phase: 0,           // 0=opening, 1=try dress, 2=spot diff, 3=complete, 4=note
+        phase: 0,
         diffsFound: 0,
         foundHair: false,
         foundPin: false
     };
+
+    /* ---- Cutscene slide helpers ---- */
+    var slides = null;
+    function getSlides() {
+        if (!slides) {
+            slides = {
+                s017: document.getElementById('cutscene-017'),
+                s018: document.getElementById('cutscene-018'),
+                s019: document.getElementById('cutscene-019'),
+                s020: document.getElementById('cutscene-020')
+            };
+        }
+        return slides;
+    }
+    function showSlide(id) {
+        var sl = getSlides();
+        for (var k in sl) { if (sl[k]) sl[k].classList.remove('active'); }
+        if (sl[id]) sl[id].classList.add('active');
+    }
+    function hideAllSlides() {
+        var sl = getSlides();
+        for (var k in sl) { if (sl[k]) sl[k].classList.remove('active'); }
+    }
 
     /* ============================
        START
@@ -41,16 +56,10 @@ GAYA.Levels.Level2 = (function() {
         state.foundHair = false;
         state.foundPin = false;
 
-        /* Load the bedroom map with Bedroom 015 background */
         GAYA.Gameplay.loadAndStart('bedroom', handleInteract);
 
-        /* Swap to 015 (room with dress on bed) */
-        GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_015);
-
-        /* Opening dialogue — Bedroom 015 */
         GAYA.Narration.show(D().opening, function() {
             state.phase = 1;
-            /* Activate the dress hotspot on the bed */
             activate('white_dress');
         });
     }
@@ -62,54 +71,41 @@ GAYA.Levels.Level2 = (function() {
         if (GAYA.State.isNarrating) return;
 
         switch (hotspot.id) {
-
-            /* --- PHASE 1: Try on the dress --- */
             case 'white_dress':
                 if (state.phase !== 1) return;
                 deactivate('white_dress');
                 tryOnDress();
                 break;
 
-            /* --- PHASE 2: Mirror → starts spot-the-diff --- */
             case 'full_mirror':
-                if (state.phase !== 1) return;
+                if (state.phase !== 2) return;
+                deactivate('full_mirror');
                 goToMirror();
                 break;
 
-            /* --- PHASE 3: Shoes / note area --- */
-            case 'bed_shoes':
-                if (state.phase !== 3) return;
-                goToNote();
-                break;
-
-            /* --- PHASE 4: Torn note --- */
             case 'torn_note':
                 if (state.phase !== 4) return;
+                deactivate('torn_note');
                 readNote();
                 break;
         }
     }
 
     /* ============================
-       PHASE 1: TRY ON THE DRESS
+       PHASE 1→2: TRY ON THE DRESS
        ============================ */
     function tryOnDress() {
         var fade = GAYA.Scene.getFadeOverlay();
         fade.classList.add('active');
 
         setTimeout(function() {
-            /* Swap sprite to white dress version */
             swapToWhiteDressSprite();
-
-            /* Swap background to 016 */
-            GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_016);
 
             setTimeout(function() {
                 fade.classList.remove('active');
+                state.phase = 2;
 
-                /* Dialogue after changing — Bedroom 016 */
                 GAYA.Narration.show(D().after_changing, function() {
-                    /* Activate mirror hotspot */
                     activate('full_mirror');
                 });
             }, 800);
@@ -117,36 +113,39 @@ GAYA.Levels.Level2 = (function() {
     }
 
     /* ============================
-       MIRROR SCENE → SPOT THE DIFF
+       PHASE 2→3: MIRROR CUTSCENE
        ============================ */
     function goToMirror() {
-        deactivate('full_mirror');
-
-        /* Swap to 017 — Gaya at the mirror */
-        GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_017);
         GAYA.Gameplay.stop();
 
+        /* Switch to cutscene screen */
+        var gameScreen = document.getElementById('screen-level1');
+        var cutScreen = document.getElementById('screen-level2-cutscene');
+        if (gameScreen) gameScreen.classList.remove('active');
+        if (cutScreen) cutScreen.classList.add('active');
+
+        /* Slide 017 — Gaya at mirror */
+        showSlide('s017');
+
         setTimeout(function() {
-            /* Swap to 018 — memory / drawing appears */
-            GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_018);
+            /* Slide 018 — Drawing appears */
+            showSlide('s018');
 
             GAYA.Narration.show(D().memory, function() {
-                /* Swap to 019 — differences circled, open puzzle */
-                GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_019);
-                state.phase = 2;
+                /* Slide 019 — Differences circled, open puzzle */
+                showSlide('s019');
+                state.phase = 3;
                 openSpotDiffUI();
             });
-        }, 1500);
+        }, 2000);
     }
 
     /* ============================
-       SPOT THE DIFFERENCES UI
+       SPOT THE DIFFERENCES
        ============================ */
     function openSpotDiffUI() {
         var overlay = document.getElementById('spot-diff-overlay');
-        if (!overlay) {
-            overlay = createSpotDiffOverlay();
-        }
+        if (!overlay) overlay = createSpotDiffOverlay();
         resetSpotDiffUI(overlay);
         overlay.classList.remove('hidden');
         overlay.classList.add('visible');
@@ -157,35 +156,26 @@ GAYA.Levels.Level2 = (function() {
         overlay.id = 'spot-diff-overlay';
         overlay.className = 'spot-diff-overlay hidden';
 
-        overlay.innerHTML = '' +
+        overlay.innerHTML =
             '<div class="spot-diff-container">' +
                 '<div class="spot-diff-title">Spot the Differences</div>' +
-                '<div class="spot-diff-subtitle">Click the 2 differences on the drawing compared to the mirror reflection</div>' +
-                '<div class="spot-diff-scene" id="spot-diff-scene">' +
-                    '<img id="spot-diff-bg" class="spot-diff-bg" src="" alt="" draggable="false">' +
-                    /* Clickable zones on the drawing */
-                    '<div class="diff-zone diff-hair" data-diff="hair" id="diff-zone-hair">' +
-                        '<div class="diff-label">?</div>' +
-                    '</div>' +
-                    '<div class="diff-zone diff-pin" data-diff="pin" id="diff-zone-pin">' +
-                        '<div class="diff-label">?</div>' +
-                    '</div>' +
+                '<div class="spot-diff-subtitle">Click the 2 differences between Gaya and the drawing</div>' +
+                '<div class="spot-diff-scene">' +
+                    '<img class="spot-diff-bg" src="04_Locations/Cutscene/Bedroom 019.png" alt="" draggable="false">' +
+                    '<div class="diff-zone diff-hair" data-diff="hair" id="diff-zone-hair"><div class="diff-label">?</div></div>' +
+                    '<div class="diff-zone diff-pin" data-diff="pin" id="diff-zone-pin"><div class="diff-label">?</div></div>' +
                 '</div>' +
                 '<div class="spot-diff-progress" id="spot-diff-progress">0 / 2 found</div>' +
-                '<div class="spot-diff-hint" id="spot-diff-hint">Look carefully at the drawing and find what\'s different</div>' +
             '</div>';
 
         document.body.appendChild(overlay);
 
-        /* Bind click events on diff zones */
         var zones = overlay.querySelectorAll('.diff-zone');
         for (var i = 0; i < zones.length; i++) {
             zones[i].addEventListener('click', function() {
-                var diff = this.getAttribute('data-diff');
-                onDiffFound(diff, overlay);
+                onDiffFound(this.getAttribute('data-diff'));
             });
         }
-
         return overlay;
     }
 
@@ -193,127 +183,96 @@ GAYA.Levels.Level2 = (function() {
         state.diffsFound = 0;
         state.foundHair = false;
         state.foundPin = false;
-
-        var bg = overlay.querySelector('#spot-diff-bg');
-        bg.src = GAYA.Config.mapBackgrounds.bedroom_019;
-
         var zones = overlay.querySelectorAll('.diff-zone');
         for (var i = 0; i < zones.length; i++) {
             zones[i].classList.remove('found');
             zones[i].querySelector('.diff-label').textContent = '?';
         }
-
-        var progress = overlay.querySelector('#spot-diff-progress');
-        if (progress) progress.textContent = '0 / 2 found';
-
-        var hint = overlay.querySelector('#spot-diff-hint');
-        if (hint) hint.textContent = "Look carefully at the drawing and find what's different";
+        overlay.querySelector('#spot-diff-progress').textContent = '0 / 2 found';
     }
 
-    function onDiffFound(diffType, overlay) {
-        if (diffType === 'hair' && state.foundHair) return;
-        if (diffType === 'pin' && state.foundPin) return;
+    function onDiffFound(type) {
+        if (type === 'hair' && state.foundHair) return;
+        if (type === 'pin' && state.foundPin) return;
 
-        if (diffType === 'hair') state.foundHair = true;
-        if (diffType === 'pin') state.foundPin = true;
+        if (type === 'hair') state.foundHair = true;
+        if (type === 'pin') state.foundPin = true;
         state.diffsFound++;
 
-        /* Mark the zone as found */
-        var zone = overlay.querySelector('#diff-zone-' + diffType);
+        var zone = document.getElementById('diff-zone-' + type);
         if (zone) {
             zone.classList.add('found');
             zone.querySelector('.diff-label').textContent = '✓';
         }
+        document.getElementById('spot-diff-progress').textContent = state.diffsFound + ' / 2 found';
 
-        var progress = overlay.querySelector('#spot-diff-progress');
-        if (progress) progress.textContent = state.diffsFound + ' / 2 found';
-
-        var hint = overlay.querySelector('#spot-diff-hint');
-
-        /* Show dialogue for found diff */
+        /* Hide overlay for dialogue */
+        var overlay = document.getElementById('spot-diff-overlay');
         overlay.classList.remove('visible');
         overlay.classList.add('hidden');
 
-        var dialogues = {
-            hair: D().diff_hair,
-            pin: D().diff_pin
-        };
-
-        GAYA.Narration.show(dialogues[diffType], function() {
+        var dKey = type === 'hair' ? 'diff_hair' : 'diff_pin';
+        GAYA.Narration.show(D()[dKey], function() {
             if (state.diffsFound >= 2) {
                 onAllDiffsFound();
             } else {
-                /* Re-open overlay for next diff */
                 overlay.classList.remove('hidden');
                 overlay.classList.add('visible');
-                if (hint) hint.textContent = 'One more difference to find!';
             }
         });
     }
 
     /* ============================
-       ALL DIFFERENCES FOUND
+       ALL DIFFS FOUND → BACK TO GAMEPLAY
        ============================ */
     function onAllDiffsFound() {
-        /* Remove the overlay */
         var overlay = document.getElementById('spot-diff-overlay');
-        if (overlay) {
-            overlay.classList.remove('visible');
-            overlay.classList.add('hidden');
-        }
+        if (overlay) { overlay.classList.remove('visible'); overlay.classList.add('hidden'); }
 
-        /* Swap to 020 — Gaya now matches the drawing */
-        GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_020);
+        /* Show completion slide 020 */
+        showSlide('s020');
 
-        state.phase = 3;
-
-        /* Completion dialogue — Bedroom 020 */
         GAYA.Narration.show(D().completion, function() {
-            /* Resume gameplay, activate bed_shoes hotspot */
-            GAYA.Gameplay.loadAndStart('bedroom', handleInteract);
-            GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_020);
+            /* Return to gameplay */
+            hideAllSlides();
+            var cutScreen = document.getElementById('screen-level2-cutscene');
+            var gameScreen = document.getElementById('screen-level1');
+            if (cutScreen) cutScreen.classList.remove('active');
+            if (gameScreen) gameScreen.classList.add('active');
 
-            /* Re-apply white dress sprite */
+            state.phase = 4;
+            GAYA.Gameplay.loadAndStart('bedroom', handleInteract);
             swapToWhiteDressSprite();
 
-            activate('bed_shoes');
+            /* Show torn note on bed */
+            setTimeout(function() {
+                GAYA.Narration.show(D().note_discovery, function() {
+                    activate('torn_note');
+                });
+            }, 600);
         });
     }
 
     /* ============================
-       PHASE 4: HIDDEN NOTE
+       PHASE 4: READ NOTE
        ============================ */
-    function goToNote() {
-        deactivate('bed_shoes');
-        state.phase = 4;
-
-        /* Swap to 021 — wide bedroom, torn note visible */
-        GAYA.Gameplay.swapBackground(GAYA.Config.mapBackgrounds.bedroom_021);
-
-        /* Dialogue — Bedroom 021 */
-        GAYA.Narration.show(D().note_discovery, function() {
-            activate('torn_note');
-        });
-    }
-
     function readNote() {
-        deactivate('torn_note');
-
-        /* Show diary entry */
-        GAYA.Narration.show(D().diary_entry_2, function() {
-            /* Transition to next level / interlude */
-            var fade = GAYA.Scene.getFadeOverlay();
-            GAYA.Gameplay.stop();
-            setTimeout(function() {
-                fade.classList.add('active');
-                setTimeout(function() {
-                    GAYA.State.currentScreen = 'interlude';
-                    fade.classList.remove('active');
-                    if (GAYA.Levels.Interlude) {
-                        GAYA.Levels.Interlude.start();
-                    }
-                }, 1200);
-            }, 800);
+        /* Show the torn page sprite first */
+        GAYA.Items.show(GAYA.Config.assetPaths.tornPageSmall, function() {
+            /* Then show Diary Entry #2 image */
+            GAYA.Items.show(GAYA.Config.assetPaths.diaryEntry2, function() {
+                GAYA.Narration.show(D().diary_entry_2, function() {
+                    GAYA.Gameplay.stop();
+                    var fade = GAYA.Scene.getFadeOverlay();
+                    setTimeout(function() {
+                        fade.classList.add('active');
+                        setTimeout(function() {
+                            fade.classList.remove('active');
+                            GAYA.Scene.goTo('level3', 800);
+                        }, 1200);
+                    }, 800);
+                });
+            });
         });
     }
 
@@ -326,9 +285,7 @@ GAYA.Levels.Level2 = (function() {
         var img = new Image();
         img.src = path;
         img.onload = function() {
-            /* Swap the active player sprite with white dress grid config */
             var grid = GAYA.Config.whiteDressSpriteGrid;
-            /* Adjust render scale for smaller frames (160×130 vs 504×634) */
             GAYA.Config.PLAYER_RENDER_SCALE = 0.45;
             if (GAYA.Player && GAYA.Player.swapSprite) {
                 GAYA.Player.swapSprite(img, grid);
@@ -355,5 +312,5 @@ GAYA.Levels.Level2 = (function() {
         }
     }
 
-    return { start: start, interact: handleInteract };
+    return { start: start };
 })();

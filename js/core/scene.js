@@ -47,7 +47,15 @@ GAYA.Scene = (function() {
         switch (id) {
             case 'opening': GAYA.Levels.Opening.start();  break;
             case 'level1':  GAYA.Levels.Level1.start();   break;
-            case 'level2':  GAYA.Levels.Level2.start();   break;
+            case 'level2':
+                /* Level 2 reuses the same canvas as Level 1 */
+                if (screens['level1']) screens['level1'].classList.add('active');
+                GAYA.Levels.Level2.start();
+                break;
+            case 'level3':
+                if (screens['level1']) screens['level1'].classList.add('active');
+                GAYA.Levels.Level3.start();
+                break;
         }
     }
 

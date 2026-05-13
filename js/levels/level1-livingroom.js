@@ -181,13 +181,15 @@ GAYA.Levels.Livingroom = (function() {
                 if (state.phase !== 4) return;
                 deactivate('basket_note');
                 GAYA.Narration.show(D().final_dialogue, function() {
-                    /* Show diary entry as item popup */
-                    GAYA.Narration.show(D().diary_entry, function() {
-                        /* Enable the door to bedroom */
-                        activate('door_bedroom');
-                        GAYA.Narration.show([
-                            { speaker: 'GAYA', text: 'I should head back...' }
-                        ]);
+                    /* Show diary image then narration */
+                    GAYA.Items.show(GAYA.Config.assetPaths.diaryEntry1, function() {
+                        GAYA.Narration.show(D().diary_entry, function() {
+                            /* Enable the door to bedroom */
+                            activate('door_bedroom');
+                            GAYA.Narration.show([
+                                { speaker: 'GAYA', text: 'I should head back...' }
+                            ]);
+                        });
                     });
                 });
                 break;

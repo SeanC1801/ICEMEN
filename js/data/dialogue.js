@@ -170,57 +170,68 @@ GAYA.Dialogue = {
     ],
 
     level3: {
-        intro: [
-            { speaker: 'Gaya', text: 'The sala looks different now. Evening light. The flowers are all in place. The candles are waiting.' },
-            { speaker: 'Gaya', text: "Seven candles. I chose seven because I kept looking at the number and it felt like enough. Like seven was the exact number of things I'm still hoping for." }
+        /* Kitchen 022 — Opening */
+        opening: [
+            { speaker: 'Gaya', text: 'These candles...' },
+            { speaker: 'Gaya', text: 'I remember writing about them in that torn paper note.' },
+            { speaker: 'Gaya', text: 'Eighteen candles for eighteen wishes...' },
+            { speaker: 'Gaya', text: "But something\u2019s wrong." },
+            { speaker: 'Gaya', text: 'Three candles are missing from the circle.' },
+            { speaker: 'Gaya', text: "Maybe if I find them... I\u2019ll remember what I wished for." }
         ],
-        candle_page: [
-            { speaker: 'Torn Page', text: "\u201CSeven candles. I chose seven because I kept looking at the number and it felt like enough. I want to light them myself. I want to be the one who lights them.\u201D" },
-            { speaker: 'Gaya', text: 'I want to be the one.' }
+
+        /* Memory dialogues after each candle puzzle */
+        memory_1: [
+            { speaker: 'Gaya', text: 'Back then... the house used to feel alive.' },
+            { speaker: 'Gaya', text: 'Mom would hum while cooking...' },
+            { speaker: 'Gaya', text: 'I didn\u2019t realize how loud silence could become after she stopped.' }
         ],
-        mother_note: [
-            { speaker: 'Handwritten Note', text: '\u201CIsa-isa, mula sa puso.\u201D One by one, from the heart.' },
-            { speaker: 'Gaya', text: 'Center first. Then outward.' }
+        memory_2: [
+            { speaker: 'Gaya', text: 'Mom always left the kitchen light on for me.' },
+            { speaker: 'Gaya', text: 'Even when we argued...' },
+            { speaker: 'Gaya', text: 'Even when neither of us knew what to say anymore.' },
+            { speaker: 'Gaya', text: 'This room used to feel safe.' }
         ],
-        no_order:      [{ speaker: 'Gaya', text: 'I need to figure out the order first...' }],
-        wrong_candle:  [{ speaker: 'Gaya', text: 'Not this one yet. From the heart outward.' }],
-        candle_7_early:[{ speaker: 'Gaya', text: 'Not yet. The others first.' }],
-        candle_7: [
-            { speaker: 'Gaya', text: 'The last one. Here.' },
-            { speaker: 'Gaya', text: "There's something under it." }
+        memory_3: [
+            { speaker: 'Gaya', text: 'I thought growing up meant learning how to carry pain alone.' },
+            { speaker: 'Gaya', text: 'But every wish I wrote...' },
+            { speaker: 'Gaya', text: 'Every single one...' },
+            { speaker: 'Gaya', text: 'Was really about wanting Mom back.' }
         ],
-        candle_diary: [
-            { speaker: 'Gaya', text: "Oh \u2014 one more. How many did I hide? [small laugh] I forget sometimes, that I do this." },
-            { speaker: 'Diary Page', text: "\u201CSix days na lang. Everything's almost ready. I keep thinking it'll be better after the debut. After the debut I'll feel like a new person...\u201D" },
-            { speaker: 'Diary Page', text: "\u201CApril 22 \u00B7 6:14am \u2014 I just wanted to tell someone that I \u2014\u201D" },
-            { speaker: '...', text: 'The mother makes a small sound across the room. Gaya looks up immediately.' },
-            { speaker: 'Gaya', text: 'Mommy?' },
-            { speaker: '...', text: "She reaches out to put her hand on her mother's shoulder." },
-            { speaker: '...', text: 'Her hand passes through.' },
-            { speaker: '...', text: 'No sound. No effect. Just: nothing where there should be something.' },
-            { speaker: 'Gaya (very quiet)', text: 'Oh.' }
+
+        /* 18th candle — failed lighting */
+        candle_18_fail: [
+            { speaker: 'Gaya', text: "Why won\u2019t this one stay lit...?" },
+            { speaker: 'Gaya', text: 'This candle...' },
+            { speaker: 'Gaya', text: 'It feels different.' }
         ],
-        wishes: {
-            candle_4: { speaker: 'Gaya (wish 1)', text: '\u201CI hope the guests will like the flowers.\u201D' },
-            candle_3: { speaker: 'Gaya (wish 2)', text: "\u201CI hope I don't cry when I dance.\u201D" },
-            candle_5: { speaker: 'Gaya (wish 3)', text: '\u201CI hope Tita Cora comes. She always makes things lighter.\u201D' },
-            candle_2: { speaker: 'Gaya (wish 4)', text: '\u201CI hope the heaviness goes away after this. I really think it will.\u201D' },
-            candle_6: { speaker: 'Gaya (wish 5)', text: '\u201CI hope Mommy knows how much I love her.\u201D' },
-            candle_1: { speaker: 'Gaya (wish 6)', text: '\u201CI hope this is the beginning of something.\u201D' }
-        },
-        mother_beats: {
-            candle_4: { speaker: '...', text: 'The mother kneels at the altar. Her lips begin to move in prayer.' },
-            candle_3: { speaker: '...', text: "The mother's lips keep moving. The prayer is continuing." },
-            candle_5: { speaker: '...', text: 'The mother takes a small photograph from her pocket. She holds it in both hands.' },
-            candle_2: { speaker: '...', text: 'The mother sets the photograph face-down on the altar.' },
-            candle_6: [
-                { speaker: '...', text: 'The mother stops praying. She turns and looks directly at the space Gaya occupies. One full breath.' },
-                { speaker: 'Mother (quiet)', text: '\u201CLigaya.\u201D' },
-                { speaker: 'Gaya', text: 'Mommy?' },
-                { speaker: '...', text: 'The mother looks away. She picks up the photograph and keeps going.' }
-            ],
-            candle_1: { speaker: '...', text: 'The mother puts her face in her hands. Three seconds. Then she straightens. She keeps going.' }
-        }
+
+        /* Diary Entry 3 */
+        diary_3: [
+            { speaker: 'Diary \u2014 May 12', text: "I\u2019ve been trying to write something for Mommy all week..." },
+            { speaker: 'Diary \u2014 May 12', text: "It\u2019s more like \u2014 you saw me when I couldn\u2019t see myself..." },
+            { speaker: 'Diary \u2014 May 12', text: 'This last candle is hers. Only she\u2014' },
+            { speaker: '...', text: '(The paper is torn.)' }
+        ],
+
+        /* Mother lights the 18th candle */
+        mother_lights: [
+            { speaker: '...', text: 'The kitchen door quietly opens.' },
+            { speaker: '...', text: 'Mother enters the room silently.' },
+            { speaker: '...', text: 'She walks beside Gaya.' },
+            { speaker: '...', text: 'Gently takes the matches from her hand.' },
+            { speaker: '...', text: 'Lights the 18th candle on the very first strike.' },
+            { speaker: '...', text: 'The flame burns steadily. Warm amber light fills the entire kitchen.' },
+            { speaker: '...', text: 'Mother and daughter stand together in silence before the completed circle of candles.' }
+        ],
+
+        /* Final reveal — torn diary completes */
+        final_reveal: [
+            { speaker: 'Diary', text: '"...Only she can light it."' },
+            { speaker: 'Diary', text: '"And if you\u2019re reading this, Mommy \u2014 it means you\u2019ve seen everything I left for you..."' },
+            { speaker: 'Diary', text: '"Thank you for knowing my whole name when I only knew half of it."' },
+            { speaker: 'Diary', text: '"Mahal na mahal kita. \u2014 Ligaya"' }
+        ]
     },
 
     ending: [

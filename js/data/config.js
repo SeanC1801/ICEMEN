@@ -24,6 +24,13 @@ GAYA.Config = {
         /* Level 2 object sprites */
         whiteDress:    "01_Assets/Objects/white dress.png",
         tornPageSmall: "01_Assets/Objects/torn page.png",
+        /* Level 3 object sprites */
+        candle:        "01_Assets/Objects/candle.png",
+        unlitCandle:   "01_Assets/Objects/uinnlit candle.png",
+        /* Diary entries (shown via GAYA.Items.show) */
+        diaryEntry1:   "01_Assets/Diary/Diary Entry #1.jpg",
+        diaryEntry2:   "01_Assets/Diary/Diary Entry #2.jpg",
+        diaryEntry3:   "01_Assets/Diary/Diary Entry #3.jpg",
     },
 
     /* Map background images — all states for progressive reveals */
@@ -40,6 +47,15 @@ GAYA.Config = {
         livingroom_012: "04_Locations/Levels/Level 1/Livingroom 012.png",
         livingroom_013: "04_Locations/Levels/Level 1/Livingroom 013.png",
         livingroom_014: "04_Locations/Levels/Level 1/Livingroom 014.png",
+
+        /* Level 3 — Kitchen progression */
+        kitchen:        "04_Locations/Levels/Level 3/Kitchen 022.png",
+        kitchen_023:    "04_Locations/Levels/Level 3/Kitchen 023.png",
+        kitchen_024:    "04_Locations/Levels/Level 3/Kitchen 024.png",
+        kitchen_025:    "04_Locations/Levels/Level 3/Kitchen 025.png",
+        kitchen_026:    "04_Locations/Levels/Level 3/Kitchen 026.png",
+        kitchen_027:    "04_Locations/Levels/Level 3/Kitchen 027.png",
+        kitchen_028:    "04_Locations/Levels/Level 3/Kitchen 028.png",
     },
 
     /* Cutscene images (fullscreen slides, not map backgrounds) */
